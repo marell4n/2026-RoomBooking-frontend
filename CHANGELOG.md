@@ -35,3 +35,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menambah logika `assets/js/bookings/form.js` untuk menangani *Create* (POST) dan *Update* (PUT)
   - Menambah logika `assets/js/bookings/list.js` untuk menampilkan riwayat booking.
   - Menambah **edit booking** untuk mengedit pengajuan booking mereka.
+  - Menambah **soft delete** agar data yang dihapus tidak hilang secara permanen, hanya tidak ditampilkan saja.

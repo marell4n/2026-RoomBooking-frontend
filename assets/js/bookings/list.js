@@ -57,15 +57,13 @@ window.BookingList = {
                     </div>
                     
                     <div class="flex gap-2">
-                        <a href="booking-form.html?id=${booking.id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 text-sm font-bold transition">
+                        <a href="booking-form.html?id=${booking.id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">
                             Edit
                         </a>
-                        
-                        ${booking.status === 0 ? `
-                            <button onclick="BookingList.delete(${booking.id})" class="px-3 py-2 border border-red-200 text-red-500 rounded-lg hover:bg-red-50 text-sm font-bold transition">
-                                Cancel
-                            </button>
-                        ` : ''}
+
+                        <a href="javascript:void(0)" onclick="BookingList.delete(${booking.id})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-red-300 rounded-lg hover:bg-red-400 text-sm font-bold transition">
+                            Delete
+                        </a>
                     </div>
                 </div>`;
             });
