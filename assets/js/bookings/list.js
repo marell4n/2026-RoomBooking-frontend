@@ -25,6 +25,10 @@ window.BookingList = {
             bookings.forEach(booking => {
                 const room = rooms.find(r => r.id === booking.roomId);
                 const roomName = room ? room.name : 'Unknown Room';
+
+                // Mapping status ke badge
+                const rawStatus = booking.status || booking.Status || 'Unknown';
+                const statusKey = String(rawStatus).toLowerCase();
                 
                 // Format Date
                 const start = new Date(booking.startTime);
@@ -34,12 +38,19 @@ window.BookingList = {
 
                 // Status Badge
                 const statusConfig = {
-                    0: { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
-                    1: { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
-                    2: { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
-                    3: { text: 'Cancelled', class: 'bg-gray-100 text-gray-800 border-gray-200' }
+                    'pending': { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+                    '0':       { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' }, // Jaga-jaga kalau angka
+                    
+                    'approved': { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
+                    '1':        { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
+
+                    'rejected': { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
+                    '2':        { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
+                    
+                    'cancelled': { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' },
+                    '3':         { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' }
                 };
-                const status = statusConfig[booking.status] || { text: 'Unknown', class: 'bg-gray-100' };
+                const status = statusConfig[statusKey] || { text: rawStatus, class: 'bg-gray-100 text-gray-500' };
 
                 html += `
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
