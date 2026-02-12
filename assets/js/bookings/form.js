@@ -1,0 +1,114 @@
+document.addEventListener('DOMContentLoaded', () => {
+    BookingForm.init();
+});
+
+window.BookingForm = {
+    async init() {
+        // 1. Load Dropdown Ruangan
+        await this.loadRooms();
+
+        // 2. Cek apakah ini Edit Mode? (Ada parameter ?id=... di URL)
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('id');
+
+        if (bookingId) {
+            // EDIT MODE
+            document.getElementById('form-title').innerText = "Edit Booking";
+            document.getElementById('booking-id').value = bookingId;
+            this.loadBookingData(bookingId);
+        }
+
+        // 3. Listener Submit
+        document.getElementById('booking-form').addEventListener('submit', (e) => this.save(e));
+    },
+
+    // Ambil Data Ruangan untuk Select Option
+    async loadRooms() {
+        const select = document.getElementById('inp-room');
+        const rooms = await fetchAPI('/rooms');
+        
+        if (rooms && rooms.length > 0) {
+            select.innerHTML = `<option value="">-- Pilih Ruangan --</option>` + 
+                rooms.map(r => `<option value="${r.id}">${r.name} (Kapasitas: ${r.capacity})</option>`).join('');
+        } else {
+            select.innerHTML = `<option value="">Tidak ada ruangan tersedia</option>`;
+        }
+    },
+
+    // Isi Form jika sedang Edit
+    async loadBookingData(id) {
+        const booking = await fetchAPI(`/bookings/${id}`);
+        if (!booking) {
+            alert("Data booking tidak ditemukan!");
+            window.location.href = 'bookings.html';
+            return;
+        }
+
+        // Pecah ISO Date (2025-10-10T14:00:00) menjadi Date dan Time input html
+        const start = new Date(booking.startTime);
+        const end = new Date(booking.endTime);
+
+        // Fungsi helper buat format YYYY-MM-DD
+        const toDateInput = (date) => date.toISOString().split('T')[0];
+        // Fungsi helper buat format HH:mm
+        const toTimeInput = (date) => date.toTimeString().slice(0, 5);
+
+        document.getElementById('inp-room').value = booking.roomId;
+        document.getElementById('inp-name').value = booking.bookedBy;
+        document.getElementById('inp-date').value = toDateInput(start);
+        document.getElementById('inp-start').value = toTimeInput(start);
+        document.getElementById('inp-end').value = toTimeInput(end);
+        document.getElementById('inp-desc').value = booking.purpose;
+    },
+
+    // Simpan Data (Create / Update)
+    async save(e) {
+        e.preventDefault();
+
+        const id = document.getElementById('booking-id').value;
+        const roomId = document.getElementById('inp-room').value;
+        const date = document.getElementById('inp-date').value;
+        const start = document.getElementById('inp-start').value;
+        const end = document.getElementById('inp-end').value;
+        
+        // Validasi Jam
+        if (end <= start) {
+            alert("Jam selesai harus lebih besar dari jam mulai.");
+            return;
+        }
+
+        const payload = {
+            roomId: parseInt(roomId),
+            bookedBy: document.getElementById('inp-name').value,
+            startTime: `${date}T${start}:00`,
+            endTime: `${date}T${end}:00`,
+            purpose: document.getElementById('inp-desc').value
+        };
+
+        // Jika ada ID, pakai PUT. Jika tidak, pakai POST.
+        const url = id ? `${API_BASE_URL}/bookings/${id}` : `${API_BASE_URL}/bookings`;
+        const method = id ? 'PUT' : 'POST';
+
+        // Untuk PUT, biasanya butuh ID di body juga
+        if(id) payload.id = parseInt(id);
+
+        try {
+            const res = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                alert(`Booking berhasil ${id ? 'diperbarui' : 'dibuat'}!`);
+                window.location.href = 'bookings.html';
+            } else {
+                const err = await res.json();
+                alert('Gagal: ' + (err.title || 'Terjadi kesalahan.'));
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Error koneksi ke server.');
+        }
+    }
+};

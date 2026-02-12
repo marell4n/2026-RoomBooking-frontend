@@ -22,7 +22,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - `assets/js/dashboard/admin.js`: Menangani tampilan statistik dan tabel approval untuk Admin.
   - `assets/js/dashboard/user.js`: Menangani tampilan *welcome card* untuk User.
   - `assets/js/dashboard/init.js`: Controller utama untuk mendeteksi *role* user dan me-render dashboard yang sesuai.
-- Fitur **CRUD** Master Ruangan untuk Admin, Read-only untuk User:
+- Fitur **CRUD Rooms** untuk Admin, Read-only untuk User:
     - Sinkronisasi `GET /api/rooms` untuk menampilkan list ruangan secara dinamis.
     - Implementasi `POST /api/rooms` melalui modal form untuk tambah ruangan.
     - Implementasi `PUT /api/rooms/{id}` untuk edit data ruangan.
@@ -30,3 +30,8 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - Role-based Access Control pada UI Rooms: Tombol Add/Edit/Delete hanya muncul untuk Admin.
 - Loading state dan feedback alert setelah aksi CRUD berhasil/gagal.
 - Menambahkan **live search** ke room list
+- Fitur **CRUD Booking**:
+  - Menambah halaman `booking-form.html` berupa halaman form untuk membuat dan mengedit booking.
+  - Menambah logika `assets/js/bookings/form.js` untuk menangani *Create* (POST) dan *Update* (PUT)
+  - Menambah logika `assets/js/bookings/list.js` untuk menampilkan riwayat booking.
+  - Menambah **edit booking** untuk mengedit pengajuan booking mereka.
