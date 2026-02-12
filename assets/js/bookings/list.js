@@ -39,16 +39,9 @@ window.BookingList = {
                 // Status Badge
                 const statusConfig = {
                     'pending': { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
-                    '0':       { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' }, // Jaga-jaga kalau angka
-                    
                     'approved': { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
-                    '1':        { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
-
                     'rejected': { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
-                    '2':        { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
-                    
-                    'cancelled': { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' },
-                    '3':         { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' }
+                    'cancelled': { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' }
                 };
                 const status = statusConfig[statusKey] || { text: rawStatus, class: 'bg-gray-100 text-gray-500' };
 
