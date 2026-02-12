@@ -16,5 +16,9 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 ### Added
 - Menambahkan **Logic Role-Based** di `assets/js/app.js`.
 - Implementasi **Navbar Dinamis** yang merender menu berbeda untuk Admin dan User.
-- Menambahkan fitur **Role Switcher** (User/Admin) dengan persistensi `localStorage`.
-- Update `index.html` untuk menggunakan Container Navbar dan Script global.
+- Menambahkan fitur **Role Switcher** (User/Admin) dengan menggunakan `localStorage`.
+- Membuat file `assets/js/icons.js` sebagai pustaka komponen ikon SVG yang dapat digunakan kembali secara global (`window.Icons`).
+- Mengimplementasikan logika dashboard modular:
+  - `assets/js/dashboard/admin.js`: Menangani tampilan statistik dan tabel approval untuk Admin.
+  - `assets/js/dashboard/user.js`: Menangani tampilan *welcome card* untuk User.
+  - `assets/js/dashboard/init.js`: Controller utama untuk mendeteksi *role* user dan me-render dashboard yang sesuai.
