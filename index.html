@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Palet Warna Custom
+                        admin: {
+                            DEFAULT: '#E38792', // Soft Red
+                            hover: '#c96f79'    // Sedikit lebih gelap untuk hover
+                        },
+                        user: {
+                            DEFAULT: '#9DAD71', // Sage Green
+                            hover: '#869660'    // Sedikit lebih gelap untuk hover
+                        },
+                        // Warna Dasar
+                        main: {
+                            dark: '#4E0A0B',    // Deep Maroon (Text Utama)
+                            light: '#F2EEE8',   // Off-White (Background)
+                            white: '#FFFFFF'    // Pure White (Card Background)
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // Rekomendasi font modern
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-main-light text-main-dark font-sans antialiased">
+
+    <nav class="bg-user text-white shadow-md transition-colors duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <h1 class="text-xl font-bold tracking-wide">RoomBooking</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <span class="px-3 py-1 bg-white/20 rounded-full text-sm backdrop-blur-sm">User Mode</span>
+                <div class="w-8 h-8 rounded-full bg-main-dark text-main-light flex items-center justify-center font-bold text-xs">
+                    U
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-10 p-6">
+        
+        <div class="bg-main-white p-8 rounded-2xl shadow-sm border border-user/20">
+            <h2 class="text-3xl font-bold mb-2 text-main-dark">Selamat Datang! 👋</h2>
+            <p class="text-opacity-80 mb-6">
+                Ini adalah tampilan awal dengan palet warna baru Anda.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-xl bg-gray-50 border border-gray-100">
+                    <h3 class="font-bold text-lg mb-2">Admin Style</h3>
+                    <p class="text-sm mb-4">Warna elemen untuk admin (#E38792).</p>
+                    <button class="bg-admin hover:bg-admin-hover text-white font-semibold py-2 px-6 rounded-lg transition shadow-md shadow-admin/30">
+                        Tombol Admin
+                    </button>
+                </div>
+
+                <div class="p-6 rounded-xl bg-gray-50 border border-gray-100">
+                    <h3 class="font-bold text-lg mb-2">User Style</h3>
+                    <p class="text-sm mb-4">Warna elemen untuk user (#9DAD71).</p>
+                    <button class="bg-user hover:bg-user-hover text-white font-semibold py-2 px-6 rounded-lg transition shadow-md shadow-user/30">
+                        Tombol User
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-4 gap-4 text-center text-xs font-mono">
+            <div class="bg-admin p-4 text-white rounded-lg">Admin<br>#E38792</div>
+            <div class="bg-user p-4 text-white rounded-lg">User<br>#9DAD71</div>
+            <div class="bg-main-dark p-4 text-white rounded-lg">Dark<br>#4E0A0B</div>
+            <div class="bg-main-light p-4 text-main-dark border border-main-dark/10 rounded-lg">Light<br>#F2EEE8</div>
+        </div>
+
+    </div>
+
+</body>
+</html>
