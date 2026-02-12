@@ -36,6 +36,8 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menambah logika `assets/js/bookings/list.js` untuk menampilkan riwayat booking.
   - Menambah **edit booking** untuk mengedit pengajuan booking mereka.
   - Menambah **soft delete** agar data yang dihapus tidak hilang secara permanen, hanya tidak ditampilkan saja.
+  - Fitur **booking detail** di detail model pada logika `assets/js/bookings/list.js`:
+    - Menampilkan informasi waktu update status (`StatusUpdatedAt`) dan waktu perubahan data terakhir (`UpdatedAt`)
 
   ## Fixed
   - Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
