@@ -77,6 +77,58 @@ window.BookingForm = {
             return;
         }
 
+        // Validasi tidak bisa booking di hari yang sudah lewat
+        const today = new Date();
+        const bookingDate = new Date(date);
+        if (bookingDate < today.setHours(0,0,0,0)) {
+            alert("Tidak bisa booking untuk tanggal yang sudah lewat.");
+            return;
+        }
+
+        // Validasi apakah booking tidak bentrok dengan booking lain di ruangan yang sama (create dan edit) 
+        // 1. Ambil semua booking (lebih aman filter di JS kalau backend filter belum pasti)
+        const allBookings = await fetchAPI('/bookings'); 
+
+        // 2. Siapkan waktu input user (Satukan date + time)
+        // Pastikan format date="YYYY-MM-DD", start="HH:mm", end="HH:mm"
+        const inputStart = new Date(`${date}T${start}`).getTime();
+        const inputEnd = new Date(`${date}T${end}`).getTime();
+
+        // Validasi dasar: Jam Selesai harus setelah Jam Mulai
+        if (inputEnd <= inputStart) {
+            alert("Jam selesai harus lebih besar dari jam mulai.");
+            return;
+        }
+
+        // 3. Cek Conflict
+        const hasConflict = allBookings.some(b => {
+            // A. Filter Ruangan (Pastikan booking orang lain itu di ruangan yang sama)
+            // Pakai == biar aman (misal string "1" vs number 1)
+            if (b.roomId != roomId) return false; 
+
+            // B. Filter Diri Sendiri (Kalau lagi Edit)
+            if (id && b.id == id) return false;
+
+            // C. Filter Status (PENTING!)
+            // Abaikan booking yang sudah Dibatalkan atau Ditolak Admin
+            const status = String(b.status || b.Status).toLowerCase();
+            if (status === 'cancelled' || status === 'rejected') return false;
+
+            // D. Cek Waktu
+            // Ambil waktu booking orang lain
+            const bStart = new Date(b.startTime || b.StartTime).getTime();
+            const bEnd = new Date(b.endTime || b.EndTime).getTime();
+
+            // RUMUS OVERLAP:
+            // (JadwalBaru.Mulai < JadwalLama.Selesai) DAN (JadwalBaru.Selesai > JadwalLama.Mulai)
+            return inputStart < bEnd && inputEnd > bStart;
+        });
+
+        if (hasConflict) {
+            alert("Gagal: Ruangan sudah terisi di jam tersebut (atau mencakup jam tersebut).");
+            return;
+        }
+
         const payload = {
             roomId: parseInt(roomId),
             bookedBy: document.getElementById('inp-name').value,
