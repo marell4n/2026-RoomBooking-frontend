@@ -38,12 +38,13 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menambah **soft delete** agar data yang dihapus tidak hilang secara permanen, hanya tidak ditampilkan saja.
   - Fitur **booking detail** di detail model pada logika `assets/js/bookings/list.js`:
     - Menampilkan informasi waktu update status (`StatusUpdatedAt`), waktu perubahan data terakhir (`UpdatedAt`) dan alasan peminjaman (`Purpose`).
-  - Menambahkan validasi tidak dapat booking di tanggal/jam masa lalu.
-  - Menambahkan validasi agar tidak terjadi bentrok jadwal di ruangan yang sama.
+  - Menambahkan **validasi** tidak dapat booking di *tanggal/jam masa lalu*.
+  - Menambahkan **validasi** agar tidak terjadi *bentrok jadwal* di ruangan yang sama.
+  - Menambah **filter** untuk melihat booking pada **tanggal tertentu atau ruangan tertentu**.
 - Fitur Admin Approval:
   - Mengisi halaman `admin-approval.html` yang berisikan daftar pengajuan yang memerlukan persetujuan.
   - Menambah `admin-approval.js` untuk otomatis memfilter booking dengan status **Pending**.
-  - Menggunakan endpoint `PATCH /api/bookings/{id}/status` untuk menyetujui dan menolak secara efisien, jadi tidak perlu mengirimkan kembali semua data booking ulang dengan endpotin `PUT`.
+  - Menggunakan endpoint `PATCH /api/bookings/{id}/status` untuk menyetujui dan menolak secara efisien, jadi tidak perlu mengirimkan kembali semua data booking ulang dengan endpoint `PUT`.
   - Menambahkan admin dapat mengubah status dari disetujui (`Approved`) menjadi ditolak (`Rejected`) dan sebaliknya.
 
   ## Fixed
