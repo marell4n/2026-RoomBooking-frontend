@@ -36,7 +36,7 @@ function renderNavbar(role) {
 
     if (role === 'admin') {
         menuItems += `
-            <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white font-bold bg-white/20 px-3 py-2 rounded mr-4">Admin Approval</a>
+            <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white font-bold px-3 py-2 rounded mr-4">Admin Approval</a>
         `;
     }
 
