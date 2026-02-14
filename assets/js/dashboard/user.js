@@ -50,20 +50,24 @@ window.UserDashboard = {
                         <a href="booking-form.html" class="inline-block bg-white text-user font-bold py-2.5 px-6 rounded-xl shadow-sm hover:bg-gray-100 hover:shadow-md transition">
                             + Booking Sekarang
                         </a>
+                        <div class="mt-4 flex items-center text-sm text-gray-200">
+                        Hindari Jadwal yang bentrok dengan melihat jadwal ruangan hari ini di bawah!
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center">
-                    <a href="rooms.html" class="flex items-center space-x-4 mb-2">
-                        <div class="p-3 bg-blue-100 text-blue-600 rounded-full">
+                <a href="rooms.html" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-center hover:shadow-md transition group cursor-pointer relative overflow-hidden">
+                    <div class="flex items-center space-x-4 mb-2">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-blue-400 opacity-10 rounded-bl-full -mr-2 -mt-2 transition group-hover:scale-110"></div>
+                        <div class="p-3 bg-blue-100 text-blue-600 rounded-full group-hover:bg-blue-200 transition">
                              ${iconRoom}
                         </div>
                         <div>
                             <p class="text-s text-gray-400 uppercase font-bold">Total Ruangan</p>
                             <h3 class="text-3xl font-bold text-main-dark">${totalRooms}</h3>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fade-in-up">
