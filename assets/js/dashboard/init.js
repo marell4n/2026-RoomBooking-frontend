@@ -42,7 +42,7 @@ function renderHeader() {
             <p class="text-gray-600 mt-1">${subtitle}</p>
         </div>
         <div class="hidden sm:flex text-sm text-gray-500 bg-white px-4 py-2 rounded-full shadow-sm items-center gap-2 border border-gray-100">
-            ${Icons.calendar ? Icons.calendar('w-4 h-4 text-user') : '📅'} 
+            ${Icons.calendar ? Icons.calendar('w-4 h-4') : '📅'} 
             <span class="font-medium">${todayDate}</span>
         </div>
     `;
@@ -129,36 +129,167 @@ function renderGlobalModal() {
  * LOGIC GLOBAL MODAL
  * Dipanggil oleh tombol "Detail" di Admin/User Dashboard
  */
-window.showBookingDetail = function(bookingId) {
-    // Ambil data dari Global Variable (Window) yang diisi oleh admin.js / user.js
-    // Pastikan admin.js/user.js mengisi window.currentBookings & window.currentRooms saat fetch data
+window.showBookingDetail = function(id) {
+    // Ambil data dari window.currentBookings (yang sudah diset di admin.js/user.js)
     const bookings = window.currentBookings || [];
     const rooms = window.currentRooms || [];
-
-    const booking = bookings.find(b => b.id === bookingId);
+    
+    const booking = bookings.find(b => (b.id || b.Id) === id);
     if (!booking) {
-        console.error("Booking data not found for ID:", bookingId);
+        alert("Data booking tidak ditemukan.");
         return;
     }
 
-    const room = rooms.find(r => r.id === booking.roomId);
+    // Helper
+    const role = localStorage.getItem('userRole') || 'user';
+    const formatDateFull = (isoString) => {
+        if (!isoString) return '-';
+        return new Date(isoString).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' });
+    };
 
-    // Isi Data ke Element Modal
-    setText('modal-room-name', room ? room.name : 'Unknown Room');
-    setText('modal-user', booking.bookedBy);
-    setText('modal-date', new Date(booking.startDate).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
-    setText('modal-start', new Date(booking.startDate).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}));
-    setText('modal-end', new Date(booking.endDate).toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}));
-    setText('modal-purpose', booking.description || "Tidak ada deskripsi.");
+    // Mapping Data
+    const room = rooms.find(r => r.id === (booking.roomId || booking.RoomId));
+    const roomName = room ? room.name : (booking.RoomName || 'Unknown Room');
+    
+    const bookedBy = booking.bookedBy || booking.BookedBy;
+    const purpose = booking.purpose || booking.Purpose;
+    const start = formatDateFull(booking.startTime || booking.StartTime);
+    const end = formatDateFull(booking.endTime || booking.EndTime);
+    const statusUpdated = formatDateFull(booking.statusUpdatedAt || booking.StatusUpdatedAt);
+    const updatedAt = formatDateFull(booking.updatedAt || booking.UpdatedAt);
+    
+    const rawStatus = booking.status || booking.Status || 'Unknown';
+    const statusKey = String(rawStatus).toLowerCase();
 
-    // Tampilkan Modal
-    const modal = document.getElementById('booking-modal');
-    modal.classList.remove('hidden');
+    const statusConfig = {
+        'pending': { text: 'Pending', class: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+        'approved': { text: 'Approved', class: 'bg-green-100 text-green-800 border-green-200' },
+        'rejected': { text: 'Rejected', class: 'bg-red-100 text-red-800 border-red-200' },
+        'cancelled': { text: 'Cancelled', class: 'bg-gray-100 text-gray-600 border-gray-200' }
+    };
+    // Default ke abu-abu jika tidak match
+    const statusBadge = statusConfig[statusKey] || { text: rawStatus, class: 'bg-gray-100 text-gray-500' };
+
+    // Logic Tombol Admin (Persis seperti list.js)
+    let adminButtons = '';
+
+    if (role === 'admin') {
+        if (statusKey === 'approved' || statusKey === 'Approved') {
+            adminButtons = `
+                <button onclick="updateDashboardStatus(${id}, 2)" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
+                    Reject
+                </button>
+            `;
+        }
+        else if (statusKey === 'rejected' || statusKey === 'Rejected') {
+            adminButtons = `
+                <button onclick="updateDashboardStatus(${id}, 1)" title="Approve Ulang" class="px-2 py-1 bg-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
+                    Approve
+                </button>
+            `;
+        }
+    }
+
+    // Render Modal HTML
+    const modalHTML = `
+        <div id="detail-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
+            <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden">
+                <div class="bg-main-dark text-white p-6 flex justify-between items-center">
+                    <h3 class="text-xl font-bold">Detail Booking</h3>
+                    <button onclick="document.getElementById('detail-modal').remove()" class="text-white/70 hover:text-white">✕</button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between items-start border-b pb-4">
+                        <div>
+                            <label class="text-xs text-gray-400 font-bold uppercase">Ruangan</label>
+                            <p class="text-lg font-bold text-main-dark">${roomName}</p>
+                        </div>
+                        <div class="text-right">
+                            <label class="text-xs text-gray-400 font-bold uppercase">Status</label>
+                            <div class="mt-1">
+                                <span class="mr-1">
+                                    ${adminButtons}
+                                </span>
+                                <span class="px-3 py-1 rounded-lg text-sm font-bold border ${statusBadge.class}">
+                                    ${statusBadge.text}
+                                </span>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 bg-gray-50 rounded-xl">
+                        <div>
+                            <label class="text-xs text-gray-400 font-bold uppercase">Mulai</label>
+                            <p class="text-sm font-semibold text-gray-700">🕒 ${start}</p>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-400 font-bold uppercase">Selesai</label>
+                            <p class="text-sm font-semibold text-gray-700">🕒 ${end}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-bold uppercase">Booked By</label>
+                        <p class="text-gray-800 font-medium">👤 ${bookedBy}</p>
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 font-bold uppercase">Keperluan</label>
+                        <p class="text-gray-700 italic">"${purpose}"</p>
+                    </div>
+
+                    <div class="pt-4 mt-4 border-t border-gray-100 text-s text-gray-500 space-y-1">
+                        <div class="flex justify-between">
+                            <span>Status Updated:</span>
+                            <span>${statusUpdated}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Last Modified:</span>
+                            <span>${updatedAt}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
 
+// Function Update Status (Khusus Dashboard)
+window.updateDashboardStatus = async function(id, newStatus) {
+    const actionName = newStatus === 1 ? 'MENYETUJUI' : 'MENOLAK';
+    if(!confirm(`Yakin ingin ${actionName} booking ini?`)) return;
+
+    try {
+        const payload = { status: newStatus };
+        const res = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            alert(`Berhasil ${newStatus === 1 ? 'disetujui' : 'ditolak'}!`);
+            document.getElementById('dashboard-detail-modal')?.remove();
+            
+            // Refresh Dashboard (Reload halaman biar data terupdate semua)
+            // Karena dashboard punya banyak widget yang harus dihitung ulang,
+            // reload adalah cara paling aman dan mudah.
+            location.reload(); 
+        } else {
+            const err = await res.json();
+            alert('Gagal: ' + (err.title || 'Error Backend'));
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Gagal koneksi server.');
+    }
+};
+
 window.closeModal = function() {
-    const modal = document.getElementById('booking-modal');
-    modal.classList.add('hidden');
+    const modal = document.getElementById('dashboard-detail-modal');
+    if (modal) modal.remove();
 }
 
 // Helper kecil untuk set text aman
