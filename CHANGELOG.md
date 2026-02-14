@@ -46,3 +46,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 
   ## Fixed
   - Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
+  - **Dashboard**: Kini menampilkan data statistik *real-time* yang diambil dari API, menggantikan tampilan *dummy*.
