@@ -8,6 +8,9 @@ window.BookingList = {
 
     async render(containerId) {
         const container = document.getElementById(containerId);
+
+        
+        const role = localStorage.getItem('userRole') || 'user';
         
         try {
             // Ambil Data Booking & Rooms (untuk nama ruangan)
@@ -34,12 +37,6 @@ window.BookingList = {
                 // Mapping status ke badge
                 const rawStatus = booking.status || booking.Status || 'Unknown';
                 const statusKey = String(rawStatus).toLowerCase();
-                
-                // Format Date
-                const start = new Date(booking.startTime);
-                const end = new Date(booking.endTime);
-                const dateStr = start.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-                const timeStr = `${start.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}`;
 
                 // Status Badge
                 const statusConfig = {
@@ -50,7 +47,14 @@ window.BookingList = {
                 };
                 const status = statusConfig[statusKey] || { text: rawStatus, class: 'bg-gray-100 text-gray-500' };
 
+                // Format Date
+                const start = new Date(booking.startTime);
+                const end = new Date(booking.endTime);
+                const dateStr = start.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                const timeStr = `${start.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}`;
+
                 const id = booking.id || booking.Id;
+
 
                 html += `
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -64,12 +68,11 @@ window.BookingList = {
                             <span>⏰ ${timeStr}</span>
                             <span>👤 ${booking.bookedBy}</span>
                         </div>
-                        <p class="mt-2 text-gray-600 text-sm italic">"${booking.purpose}"</p>
                     </div>
                     
                     <div class="flex gap-2">
                         <button onclick="BookingList.showDetail(${id})" class="px-3 py-2 bg-main-light text-main-dark border border-gray-200 rounded-lg hover:bg-gray-200 text-sm font-bold transition flex items-center gap-1">
-                            ${Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} Detail
+                            ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} Detail
                         </button>
                         
                         <a href="booking-form.html?id=${booking.id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">
@@ -90,11 +93,44 @@ window.BookingList = {
         }
     },
 
+    // Fungsi Update Status (Admin)
+    async updateStatus(id, newStatus) {
+        const actionName = newStatus === 1 ? 'MENYETUJUI' : 'MENOLAK';
+        if(!confirm(`Yakin ingin ${actionName} booking ini?`)) return;
+
+        try {
+            const payload = { status: newStatus };
+            const res = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                alert(`Berhasil ${newStatus === 1 ? 'disetujui' : 'ditolak'}!`);
+                
+                // 1. Tutup Modal otomatis
+                document.getElementById('detail-modal')?.remove();
+                
+                // 2. Refresh halaman list di belakangnya
+                this.render('booking-list-container');
+            } else {
+                const err = await res.json();
+                alert('Gagal memperbarui status booking: ' + (err.title || 'Terjadi kesalahan.'));
+            }
+        } catch (e) {
+            console.error(e);
+            alert('Terjadi kesalahan saat mengupdate status booking.');
+        }
+    },
+
     // Fungsi tampilkan detail booking dalam modal
     showDetail(id) {
         // Ambil data dari memory local (this._data) biar cepat
         const booking = this._data.find(b => (b.id || b.Id) === id);
         if (!booking) return;
+
+        const role = localStorage.getItem('userRole') || 'user';
 
         // Helper untuk format tanggal lengkap
         const formatDateFull = (isoString) => {
@@ -114,6 +150,26 @@ window.BookingList = {
         const purpose = booking.purpose || booking.Purpose;
         const status = String(booking.status || booking.Status || 'Unknown');
 
+        // Tombol untuk edit status yang sudah disetujui/ditolak (khusus admin)
+        let adminButtons = '';
+
+        if (role === 'admin') {
+            if (status === 'approved' || status === 'Approved') {
+                adminButtons = `
+                    <button onclick="BookingList.updateStatus(${id}, 2)" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
+                        Reject
+                    </button>
+                `;
+            }
+            else if (status === 'rejected' || status === 'Rejected') {
+                adminButtons = `
+                    <button onclick="BookingList.updateStatus(${id}, 1)" title="Approve Ulang" class="px-2 py-1 bg-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
+                        Approve
+                    </button>
+                `;
+            }
+        }
+
         // Render Modal
         const modalHTML = `
             <div id="detail-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
@@ -131,6 +187,7 @@ window.BookingList = {
                             <div class="text-right">
                                 <label class="text-xs text-gray-400 font-bold uppercase">Status</label>
                                 <p class="font-bold capitalize text-user">${status}</p>
+                                ${adminButtons}
                             </div>
                         </div>
 

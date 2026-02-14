@@ -42,6 +42,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Mengisi halaman `admin-approval.html` yang berisikan daftar pengajuan yang memerlukan persetujuan.
   - Menambah `admin-approval.js` untuk otomatis memfilter booking dengan status **Pending**.
   - Menggunakan endpoint `PATCH /api/bookings/{id}/status` untuk menyetujui dan menolak secara efisien, jadi tidak perlu mengirimkan kembali semua data booking ulang dengan endpotin `PUT`.
+  - Menambahkan admin dapat mengubah status dari disetujui (`Approved`) menjadi ditolak (`Rejected`) dan sebaliknya.
 
   ## Fixed
   - Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
