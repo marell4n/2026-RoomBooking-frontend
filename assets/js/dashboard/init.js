@@ -176,14 +176,14 @@ window.showBookingDetail = function(id) {
     if (role === 'admin') {
         if (statusKey === 'approved' || statusKey === 'Approved') {
             adminButtons = `
-                <button onclick="BookingList.updateStatus(${id}, 2)" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
+                <button onclick="updateDashboardStatus(${id}, 2)" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
                     Reject
                 </button>
             `;
         }
         else if (statusKey === 'rejected' || statusKey === 'Rejected') {
             adminButtons = `
-                <button onclick="BookingList.updateStatus(${id}, 1)" title="Approve Ulang" class="px-2 py-1 bg-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
+                <button onclick="updateDashboardStatus(${id}, 1)" title="Approve Ulang" class="px-2 py-1 bg-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
                     Approve
                 </button>
             `;
