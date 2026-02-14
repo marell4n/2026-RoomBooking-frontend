@@ -51,3 +51,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - **Dashboard**: Kini menampilkan data statistik *real-time* yang diambil dari API, menggantikan tampilan *dummy*.
   - Memperbaiki fungsi **tombol update status** yang ada di dashboard untuk admin (kesalahan penulisan fungsi).
   - Memperbaiki tampilan dashboard user.
+  -**Refactoring** Rooms:
+    - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/list.js`, menghapus **detail button**, dan menyembunyikaan **buttons edit dan delete** (hanya admin yang bisa melakukan crud terhadap rooms).
+    - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/form.js`.
+    - Memperbaiki fungsi filter/searching ruangan.
