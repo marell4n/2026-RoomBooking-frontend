@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
-    BookingList.init('booking-list-container');
-});
+import { fetchAPI } from "../api";
+import { Icons } from "../icons";
+import { BookingModal } from "../component/BookingDetailModal";
 
-window.BookingList = {
+const BookingList = {
     _bookings: [], // Data mentah semua booking
     _rooms: [],    // Data mentah ruangan
     _containerId: 'booking-list-container',
@@ -120,25 +120,25 @@ window.BookingList = {
 
             const id = booking.id || booking.Id;
 
-            let buttonsHTML = '';
+            let adminButton = '';
             
             // Tombol Detail
-            buttonsHTML += `
+            adminButton += `
                 <button onclick="BookingList.showDetail(${id})" class="px-3 py-2 bg-main-light text-main-dark border border-gray-200 rounded-lg hover:bg-gray-200 text-sm font-bold transition flex items-center gap-1">
-                    ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} Detail
+                    ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} 
                 </button>`;
 
             // Tombol Edit & Delete
-            if (statusKey === 'pending' || statusKey === '0' || role === 'admin') {
-                buttonsHTML += `
+            if (statusKey === 'pending' || statusKey === 'approved' || statusKey === 'rejected' || statusKey === '0' || role === 'admin') {
+                adminButton += `
                     <a href="booking-form.html?id=${id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">Edit</a>
-                    <button onclick="BookingList.delete(${id})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-red-50 hover:bg-red-100 hover:text-red-600 text-sm font-bold transition">Delete</button>
+                    <button onclick="BookingList.delete(${id})" class="px-3 py-2 rounded-lg border-gray-200 text-gray-600 bg-red-200 hover:bg-red-300 hover:text-red-600 text-sm font-bold transition">Delete</button>
                 `;
             }
 
             html += `
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in-up">
-                <div class="flex-grow">
+                <div class="grow">
                     <div class="flex items-center gap-3 mb-2">
                         <h3 class="font-bold text-lg text-main-dark">${roomName}</h3>
                         <span class="px-2 py-0.5 rounded text-xs font-bold border ${status.class}">${status.text}</span>
@@ -151,7 +151,7 @@ window.BookingList = {
                 </div>
                 
                 <div class="flex gap-2">
-                    ${buttonsHTML}
+                    ${adminButton}
                 </div>
             </div>`;
         });
@@ -159,43 +159,7 @@ window.BookingList = {
         container.innerHTML = html;
     },
 
-    // 4. Detail, Delete, Update Status
-    
-    // Fungsi Update Status
-    async updateStatus(id, newStatus) {
-        const actionName = newStatus === 1 ? 'MENYETUJUI' : 'MENOLAK';
-        if(!confirm(`Yakin ingin ${actionName} booking ini?`)) return;
-
-        try {
-            const payload = { status: newStatus };
-            const res = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-                alert(`Berhasil ${newStatus === 1 ? 'disetujui' : 'ditolak'}!`);
-                document.getElementById('detail-modal')?.remove();
-                
-                // Update data lokal biar gak perlu fetch ulang semua
-                const bookingIndex = this._bookings.findIndex(b => b.id === id);
-                if (bookingIndex !== -1) {
-                    this._bookings[bookingIndex].status = newStatus;
-                }
-                
-                // Render ulang filter yang sedang aktif
-                this.applyFilter();
-            } else {
-                const err = await res.json();
-                alert('Gagal update: ' + (err.title || 'Error Backend'));
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Error koneksi server.');
-        }
-    },
-
+    // 4. Detail, Delete
     // Fungsi Delete
     async delete(id) {
         if(!confirm('Hapus booking ini?')) return;
@@ -219,56 +183,15 @@ window.BookingList = {
         const booking = this._bookings.find(b => (b.id || b.Id) === id);
         if (!booking) return;
 
-        const role = localStorage.getItem('userRole') || 'user';
-        const formatDateFull = (iso) => iso ? new Date(iso).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' }) : '-';
-
-        // Ambil data referensi ruangan
-        const room = this._rooms.find(r => r.id === booking.roomId);
-        const roomName = room ? room.name : (booking.RoomName || 'Unknown');
-
-        // Mapping Status
-        const rawStatus = String(booking.status || '0').toLowerCase();
-        let statusText = 'Pending';
-        if(rawStatus === '1' || rawStatus === 'approved') statusText = 'Approved';
-        if(rawStatus === '2' || rawStatus === 'rejected') statusText = 'Rejected';
-        if(rawStatus === '3' || rawStatus === 'cancelled') statusText = 'Cancelled';
-
-        // Admin Buttons Logic
-        let adminButtons = '';
-        if (role === 'admin') {
-            if (statusText === 'Approved') {
-                adminButtons = `<button onclick="BookingList.updateStatus(${id}, 2)" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded border border-red-200 font-bold hover:bg-red-200">Reject</button>`;
-            } else if (statusText === 'Rejected') {
-                adminButtons = `<button onclick="BookingList.updateStatus(${id}, 1)" class="text-xs bg-green-100 text-green-600 px-3 py-1 rounded border border-green-200 font-bold hover:bg-green-200">Approve</button>`;
-            } else if (statusText === 'Pending') {
-                adminButtons = `
-                    <button onclick="BookingList.updateStatus(${id}, 1)" class="text-xs bg-green-600 text-white px-3 py-1 rounded font-bold hover:bg-green-700">Approve</button>
-                    <button onclick="BookingList.updateStatus(${id}, 2)" class="text-xs bg-red-50 text-red-600 px-3 py-1 rounded border border-red-200 font-bold hover:bg-red-100">Reject</button>
-                `;
-            }
-        }
-
-        const modalHTML = `
-            <div id="detail-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-                <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden">
-                    <div class="bg-main-dark text-white p-5 flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Detail Booking</h3>
-                        <button onclick="document.getElementById('detail-modal').remove()" class="text-white/70 hover:text-white">✕</button>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="flex justify-between border-b pb-4">
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Ruangan</p><p class="text-lg font-bold text-main-dark">${roomName}</p></div>
-                            <div class="text-right"><p class="text-xs text-gray-400 font-bold uppercase">Status</p><p class="font-bold text-user capitalize">${statusText}</p><div class="mt-2 space-x-2">${adminButtons}</div></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg">
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Mulai</p><p class="text-sm font-semibold">${formatDateFull(booking.startTime)}</p></div>
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Selesai</p><p class="text-sm font-semibold">${formatDateFull(booking.endTime)}</p></div>
-                        </div>
-                        <div><p class="text-xs text-gray-400 font-bold uppercase">Peminjam</p><p class="font-medium">👤 ${booking.bookedBy}</p></div>
-                        <div><p class="text-xs text-gray-400 font-bold uppercase">Keperluan</p><p class="italic text-gray-600">"${booking.purpose}"</p></div>
-                    </div>
-                </div>
-            </div>`;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        BookingModal.show(id, this._bookings, this._rooms, () => {
+            this.init(this._containerId); // Refresh data & UI setelah update status
+        });
     }
 };
+
+// Export ke global agar bisa dipanggil dari HTML
+window.BookingList = BookingList;
+
+document.addEventListener('DOMContentLoaded', () => {
+    BookingList.init('booking-list-container');
+});

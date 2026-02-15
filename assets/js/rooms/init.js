@@ -42,7 +42,7 @@ function renderPageHeader() {
         </div>
 
         <div class="flex items-center gap-4 w-full md:w-auto">
-            <div class="relative flex-grow md:flex-grow-0 md:w-64">
+            <div class="relative grow md:grow-0 md:w-64">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
                     ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-5 h-5') : "🔍"}
                 </span>

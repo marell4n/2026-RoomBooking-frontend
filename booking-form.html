@@ -1,74 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Booking - RoomBooking</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { theme: { extend: { colors: { admin: '#E38792', user: '#9DAD71', main: { dark: '#4E0A0B', light: '#F2EEE8' } } } } }
-    </script>
-</head>
-<body class="bg-main-light text-main-dark min-h-screen flex flex-col">
+  </head>
+  <body class="bg-main-light text-main-dark min-h-screen flex flex-col">
     <div id="navbar-container"></div>
 
-    <div class="container mx-auto mt-8 p-6 flex-grow flex justify-center">
-        <div class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden">
-            
-            <div class="bg-main-dark text-white p-6 flex justify-between items-center">
-                <h2 id="form-title" class="text-xl font-bold">Buat Booking Baru</h2>
-                <a href="bookings.html" class="text-gray-300 hover:text-white transition">Kembali</a>
-            </div>
-
-            <form id="booking-form" class="p-8 space-y-6">
-                <input type="hidden" id="booking-id">
-
-                <div>
-                    <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Pilih Ruangan</label>
-                    <select id="inp-room" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none bg-white" required>
-                        <option value="">-- Memuat Data Ruangan --</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Nama Peminjam</label>
-                    <input type="text" id="inp-name" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none" placeholder="Masukkan nama Anda" required>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Tanggal</label>
-                        <input type="date" id="inp-date" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Jam Mulai</label>
-                        <input type="time" id="inp-start" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Jam Selesai</label>
-                        <input type="time" id="inp-end" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none" required>
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-gray-500 uppercase mb-2">Keperluan / Deskripsi</label>
-                    <textarea id="inp-desc" rows="3" class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none" placeholder="Contoh: Meeting Proyek A" required></textarea>
-                </div>
-
-                <div class="pt-4 flex gap-4">
-                    <a href="bookings.html" class="px-6 py-3 rounded-xl border border-gray-300 text-gray-600 font-bold hover:bg-gray-50 transition">Batal</a>
-                    <button type="submit" id="btn-save" class="flex-grow bg-user hover:bg-user-hover text-white py-3 rounded-xl font-bold shadow-lg shadow-user/20 transition">
-                        Simpan Booking
-                    </button>
-                </div>
-            </form>
+    <div class="container mx-auto mt-8 p-6 grow flex justify-center">
+      <div
+        class="bg-white w-full max-w-2xl rounded-2xl shadow-xl overflow-hidden"
+      >
+        <div
+          class="bg-main-dark text-white p-6 flex justify-between items-center"
+        >
+          <h2 id="form-title" class="text-xl font-bold">Buat Booking Baru</h2>
+          <a
+            href="bookings.html"
+            class="text-gray-300 hover:text-white transition"
+            >Kembali</a
+          >
         </div>
+
+        <form id="booking-form" class="p-8 space-y-6">
+          <input type="hidden" id="booking-id" />
+
+          <div>
+            <label class="block text-sm font-bold text-gray-500 uppercase mb-2"
+              >Pilih Ruangan</label
+            >
+            <select
+              id="inp-room"
+              class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none bg-white"
+              required
+            >
+              <option value="">-- Memuat Data Ruangan --</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-500 uppercase mb-2"
+              >Nama Peminjam</label
+            >
+            <input
+              type="text"
+              id="inp-name"
+              class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none"
+              placeholder="Masukkan nama Anda"
+              required
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label
+                class="block text-sm font-bold text-gray-500 uppercase mb-2"
+                >Tanggal</label
+              >
+              <input
+                type="date"
+                id="inp-date"
+                class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block text-sm font-bold text-gray-500 uppercase mb-2"
+                >Jam Mulai</label
+              >
+              <input
+                type="time"
+                id="inp-start"
+                class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label
+                class="block text-sm font-bold text-gray-500 uppercase mb-2"
+                >Jam Selesai</label
+              >
+              <input
+                type="time"
+                id="inp-end"
+                class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-500 uppercase mb-2"
+              >Keperluan / Deskripsi</label
+            >
+            <textarea
+              id="inp-desc"
+              rows="3"
+              class="w-full border border-gray-300 p-3 rounded-xl focus:ring-2 focus:ring-user outline-none"
+              placeholder="Contoh: Meeting Proyek A"
+              required
+            ></textarea>
+          </div>
+
+          <div class="pt-4 flex gap-4">
+            <a
+              href="bookings.html"
+              class="px-6 py-3 rounded-xl border border-gray-300 text-gray-600 font-bold hover:bg-gray-50 transition"
+              >Batal</a
+            >
+            <button
+              type="submit"
+              id="btn-save"
+              class="grow bg-user hover:bg-user-hover text-white py-3 rounded-xl font-bold shadow-lg shadow-user/20 transition"
+            >
+              Simpan Booking
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/icons.js"></script>
-    <script src="assets/js/app.js"></script>
-    
+    <script type="module" src="/src/main.js"></script>
     <script src="assets/js/bookings/form.js"></script>
-</body>
+  </body>
 </html>

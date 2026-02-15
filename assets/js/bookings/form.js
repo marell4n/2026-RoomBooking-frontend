@@ -137,30 +137,28 @@ window.BookingForm = {
             purpose: document.getElementById('inp-desc').value
         };
 
-        // Jika ada ID, pakai PUT. Jika tidak, pakai POST.
-        const url = id ? `${API_BASE_URL}/bookings/${id}` : `${API_BASE_URL}/bookings`;
+        // Tentukan endpoint dan method berdasarkan apakah ini Create atau Edit
+        const endpoint = id ? `/bookings/${id}` : `/bookings`;
         const method = id ? 'PUT' : 'POST';
 
         // Untuk PUT, biasanya butuh ID di body juga
         if(id) payload.id = parseInt(id);
 
         try {
-            const res = await fetch(url, {
+            // 1. Kirim Request
+            // (Header Content-Type sudah otomatis diurus api.js)
+            await fetchAPI(endpoint, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            if (res.ok) {
-                alert(`Booking berhasil ${id ? 'diperbarui' : 'dibuat'}!`);
-                window.location.href = 'bookings.html';
-            } else {
-                const err = await res.json();
-                alert('Gagal: ' + (err.title || 'Terjadi kesalahan.'));
-            }
+            // 2. Sukses
+            // (Kode di bawah ini HANYA jalan kalau statusnya 200 OK)
+            alert(`Booking berhasil ${id ? 'diperbarui' : 'dibuat'}!`);
+            window.location.href = 'bookings.html';
         } catch (error) {
             console.error(error);
-            alert('Error koneksi ke server.');
+            aalert('Gagal: ' + (err.title || err.message || 'Terjadi kesalahan sistem.'));
         }
     }
 };

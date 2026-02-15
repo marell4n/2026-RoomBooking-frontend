@@ -47,12 +47,32 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menggunakan endpoint `PATCH /api/bookings/{id}/status` untuk menyetujui dan menolak secara efisien, jadi tidak perlu mengirimkan kembali semua data booking ulang dengan endpoint `PUT`.
   - Menambahkan admin dapat mengubah status dari disetujui (`Approved`) menjadi ditolak (`Rejected`) dan sebaliknya.
 
-  ## Fixed
-  - Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
-  - **Dashboard**: Kini menampilkan data statistik *real-time* yang diambil dari API, menggantikan tampilan *dummy*.
-  - Memperbaiki fungsi **tombol update status** yang ada di dashboard untuk admin (kesalahan penulisan fungsi).
-  - Memperbaiki tampilan dashboard user.
-  -**Refactoring** Rooms:
-    - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/list.js`, menghapus **detail button**, dan menyembunyikaan **buttons edit dan delete** (hanya admin yang bisa melakukan crud terhadap rooms).
-    - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/form.js`.
-    - Memperbaiki fungsi filter/searching ruangan.
+## Fixed
+- Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
+- **Dashboard**: Kini menampilkan data statistik *real-time* yang diambil dari API, menggantikan tampilan *dummy*.
+- Memperbaiki fungsi **tombol update status** yang ada di dashboard untuk admin (kesalahan penulisan fungsi).
+- Memperbaiki tampilan dashboard user.
+-**Refactoring** Rooms:
+  - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/list.js`, menghapus **detail button**, dan menyembunyikaan **buttons edit dan delete** (hanya admin yang bisa melakukan crud terhadap rooms).
+  - Mengubah `assets/js/rooms/user.js` menjadi `assets/js/rooms/form.js`.
+  - Memperbaiki fungsi filter/searching ruangan.
+- **Refactoring** dari CDN ke Module-Based:
+  - Inisialisasi NPM dan instal dependensi `vite`, `@tailwindcss/vite`, `tailwind` v4, `postcss`, dan `autoprefixer`.
+  - Menambah folder `src/` untuk pusat kontrol modul.
+  - Semua konfigurasi warna kustom dan font dipindahkan ke `src/style.css`.
+  - Entry point utama dengan `src/main.js` untuk memuat CSS.
+- **Refactoring** script dan HTML:
+  - Modifikasi `assets/js/api.js` agar kompatibel dengan sistem module dan fungsi `window` tetap bisa diakses di script lainnya.
+  - Menghapus script CDN yang ada di file HTML.
+- Refactoring `api.js` dan `icon.js` menjadi **Modules**
+- **Refactoring** Dashboard menjadi **ES Modules**:
+  - Menyederhanakan `index.html` dengan menggunakan satu entry point(`init.js`).
+  - Mengubah file `init.js`, `user.js`, dan `admin.js` menjadi berbasis **ES Modules**.
+  - Menghapus duplikasi kode filter jadwal di `user.js` dan `admin.js` dengan mendelegasikan tugas tersebut ke komponen `TodaySchedule`.
+- **Refactoring** `BookingDetail` menjadi **Component** (`BookingDetailModal`):
+  - Menghapus duplikasi kode di `dashboard/init.js` dan `bookings/list.js`.
+  - Penyesuaikan payload data status agar sesuai dengan standard DTO pada backend.
+- **Refactoring** `bookings/list` menjadi module.
+- **Refactoring** `/rooms` menjadi module.
+- Memperbaiki typo import *fecthAPI* di `/booking/list.js`
+- **Refactoring** `assets/js/admin-approval.js` menjadi modul.

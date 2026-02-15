@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* --- Font Family --- */
+  --font-sans: "Inter", "sans-serif";
+
+  /* --- Warna Admin --- */
+  --color-admin: #E38792;
+  --color-admin-hover: #c96f79;
+
+  /* --- Warna User --- */
+  --color-user: #9DAD71;
+  --color-user-hover: #869660;
+
+  /* --- Warna Main --- */
+  --color-main-dark: #4E0A0B;
+  --color-main-light: #F2EEE8;
+  --color-main-white: #FFFFFF;
+}

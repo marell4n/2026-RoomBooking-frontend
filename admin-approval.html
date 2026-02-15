@@ -1,42 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Approval - RoomBooking</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        admin: { DEFAULT: '#E38792', hover: '#c96f79' }, // Warna Admin
-                        main: { dark: '#4E0A0B', light: '#F2EEE8', white: '#FFFFFF' }
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-main-light text-main-dark min-h-screen flex flex-col">
-
+  </head>
+  <body class="bg-main-light text-main-dark min-h-screen flex flex-col">
     <div id="navbar-container"></div>
 
-    <div class="container mx-auto mt-8 p-6 flex-grow">
-        <header class="mb-8 border-b border-gray-300 pb-4">
-            <h2 class="text-3xl font-bold text-admin">Persetujuan Booking</h2>
-            <p class="text-gray-500">Daftar pengajuan peminjaman ruangan yang menunggu konfirmasi.</p>
-        </header>
+    <div class="container mx-auto mt-8 p-6 grow">
+      <header class="mb-8 border-b border-gray-300 pb-4">
+        <h2 class="text-3xl font-bold text-admin">Persetujuan Booking</h2>
+        <p class="text-gray-500">
+          Daftar pengajuan peminjaman ruangan yang menunggu konfirmasi.
+        </p>
+      </header>
 
-        <div id="approval-list" class="space-y-4">
-            <p class="text-center text-gray-400 py-10">Memuat data pending...</p>
-        </div>
+      <div id="approval-list" class="space-y-4">
+        <p class="text-center text-gray-400 py-10">Memuat data pending...</p>
+      </div>
     </div>
 
-    <script src="assets/js/api.js"></script>
-    <script src="assets/js/icons.js"></script>
-    <script src="assets/js/app.js"></script>
-    
-    <script src="assets/js/admin-approval.js"></script>
-</body>
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="assets/js/admin-approval.js"></script>
+  </body>
 </html>
