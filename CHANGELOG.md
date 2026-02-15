@@ -2,7 +2,8 @@
 
 Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 
-## [Unreleased]
+## [v1.0.0] - 15-02-20206
+**Initial Release**
 
 ### Chore
 - Inisialisasi struktur folder frontend (`assets/css`, `assets/js`).
