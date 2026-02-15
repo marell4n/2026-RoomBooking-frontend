@@ -76,3 +76,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - **Refactoring** `/rooms` menjadi module.
 - Memperbaiki typo import *fecthAPI* di `/booking/list.js`
 - **Refactoring** `assets/js/admin-approval.js` menjadi modul.
+- Memperbaiki file component yang tidak terpush ke git.

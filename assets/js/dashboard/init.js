@@ -2,7 +2,7 @@ import { UserDashboard } from "./user";
 import { AdminDashboard } from "./admin";
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
-import { BookingModal } from "../component/BookingDetailModal.js";
+import { BookingModal } from "../../../src/component/BookingDetailModal.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Siapkan komponen Shared
