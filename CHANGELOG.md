@@ -75,3 +75,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - **Refactoring** `bookings/list` menjadi module.
 - **Refactoring** `/rooms` menjadi module.
 - Memperbaiki typo import *fecthAPI* di `/booking/list.js`
+- **Refactoring** `assets/js/admin-approval.js` menjadi modul.

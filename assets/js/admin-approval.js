@@ -1,20 +1,13 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Cek keamanan (hanya Admin yang boleh akses script ini)
-    const role = localStorage.getItem('userRole');
-    if (role !== 'admin') {
-        alert("Akses Ditolak: Halaman ini khusus Admin.");
-        window.location.href = 'index.html';
-        return;
-    }
+import { fetchAPI } from "./api.js";
 
-    AdminApproval.init();
-});
-
-window.AdminApproval = {
+const AdminApproval = {
     _data: [], // Simpan raw data
 
     async init() {
         const container = document.getElementById('approval-list');
+        if (!container) return;
+
+        container.innerHTML = `<div class="text-center py-20 text-gray-400">Memuat data...</div>`;
         
         try {
             // Fetch Data
@@ -44,7 +37,14 @@ window.AdminApproval = {
             // Simpan data pending ke memori
             this._data = pendingBookings;
 
-            // Render List
+            this.renderList(pendingBookings, rooms, container);
+        } catch (error) {
+            console.error(error);
+            container.innerHTML = `<div class="text-red-500 text-center font-bold">Gagal memuat data. Pastikan Backend menyala.</div>`;
+        }
+    },
+
+    renderList(pendingBookings, rooms, container) {
             let html = '';
             pendingBookings.forEach(booking => {
                 const rId = booking.roomId || booking.RoomId;
@@ -64,7 +64,7 @@ window.AdminApproval = {
                 html += `
                 <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-admin flex flex-col md:flex-row justify-between items-start gap-6 animate-fade-in-up hover:shadow-xl transition">
                     
-                    <div class="flex-grow">
+                    <div class="grow">
                         <div class="flex items-center gap-2 mb-2">
                             <h3 class="text-xl font-bold text-main-dark">${roomName}</h3>
                             <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded border border-yellow-200">⏳ Pending Approval</span>
@@ -101,12 +101,8 @@ window.AdminApproval = {
             });
 
             container.innerHTML = html;
-
-        } catch (error) {
-            console.error(error);
-            container.innerHTML = `<div class="text-red-500 text-center font-bold">Gagal memuat data. Pastikan Backend menyala.</div>`;
-        }
     },
+
 
     renderEmpty(container) {
         container.innerHTML = `
@@ -129,22 +125,33 @@ window.AdminApproval = {
 
         try {
             // Endpoint patch 
-            const res = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
+            await fetchAPI(`/bookings/${id}/status`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            if (res.ok) {
-                this.init(); // Refresh list
-                alert(`Berhasil ${newStatus === 1 ? 'menyetujui' : 'menolak'} booking!`);
-            } else {
-                const err = await res.json();
-                alert('Gagal memproses: ' + (err.title || 'Terjadi kesalahan.'));
-            }
+            alert(`Berhasil ${newStatus === 1 ? 'menyetujui' : 'menolak'} booking!`);
+            this.init(); // Refresh list
+        
         } catch (e) {
             console.error(e);
             alert('Terjadi kesalahan saat memproses permintaan.');
         }
     }
 };
+
+// Expose ke global agar bisa dipanggil dari HTML
+window.AdminApproval = AdminApproval;
+
+// Cek keamanan (hanya Admin yang boleh akses script ini)
+document.addEventListener('DOMContentLoaded', () => {
+    const role = localStorage.getItem('userRole');
+    if (role !== 'admin') {
+        alert("Akses Ditolak: Halaman ini khusus Admin.");
+        window.location.href = 'index.html';
+        return;
+    }
+
+    AdminApproval.init();
+});
