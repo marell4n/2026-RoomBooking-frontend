@@ -1,6 +1,7 @@
 // Import library atau modul yang dibutuhkan
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
+import { TodaySchedule } from '../component/TodaySchedule.js';
 
 export const AdminDashboard = { 
     async init(containerId = 'main-content') {
@@ -80,70 +81,8 @@ export const AdminDashboard = {
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fade-in-up">
-                    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
-                        <h3 class="font-bold text-lg text-main-dark">Jadwal Ruangan Hari Ini</h3>
-                        <span class="text-xs font-bold px-3 py-1 bg-green-100 text-green-700 rounded-full">
-                            ${new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })}
-                        </span>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
+                ${TodaySchedule.render(bookings, rooms)}
             `;
-
-            if (todaysBookings.length === 0) {
-                html += `<div class="p-10 text-center text-gray-400">
-                            ${Icons.empty ? Icons.empty('w-12 h-12 mx-auto mb-2 opacity-50') : ''}
-                            <p>Tidak ada jadwal peminjaman hari ini.</p>
-                        </div>
-                    `;
-            } else {
-                html += `
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                                <th class="p-4">Ruangan</th>
-                                <th class="p-4">Jam</th>
-                                <th class="p-4">Peminjam</th>
-                                <th class="p-4 text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                `;
-
-                // Urutkan berdasarkan waktu mulai
-                todaysBookings.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
-
-                todaysBookings.forEach(b => {
-                    const room = rooms.find(r => r.id === b.roomId);
-                    const roomName = room ? room.name : 'Unknown Room';
-                    const start = new Date(b.startTime).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                    const end = new Date(b.endTime).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                    
-                    html += `
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="p-4 text-main-dark font-medium">${roomName}</td>
-                            <td class="p-4 font-bold text-gray-700 whitespace-nowrap">
-                                ${start} - ${end}
-                            </td>
-                            <td class="p-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-sm text-gray-600 capitalize">${b.bookedBy}</span>
-                                </div>
-                            </td>
-                            <td class="p-4 text-center">
-                                <button onclick="showBookingDetail(${b.id})" class="text-gray-400 hover:text-admin transition">
-                                    ${Icons.detail ? Icons.detail('w-5 h-5') : "Detail"}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-
-                html += `</tbody></table>`;
-            }
-
-            html += `</div></div>`;
             container.innerHTML = html;
 
         } catch (error) {
