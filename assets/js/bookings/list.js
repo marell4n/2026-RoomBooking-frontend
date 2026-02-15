@@ -1,10 +1,8 @@
+import { fetchAPI } from "../utils/fetchAPI";
+import { Icons } from "../icons";
 import { BookingModal } from "../component/BookingDetailModal";
 
-document.addEventListener('DOMContentLoaded', () => {
-    BookingList.init('booking-list-container');
-});
-
-window.BookingList = {
+const BookingList = {
     _bookings: [], // Data mentah semua booking
     _rooms: [],    // Data mentah ruangan
     _containerId: 'booking-list-container',
@@ -122,17 +120,17 @@ window.BookingList = {
 
             const id = booking.id || booking.Id;
 
-            let buttonsHTML = '';
+            let adminButton = '';
             
             // Tombol Detail
-            buttonsHTML += `
+            adminButton += `
                 <button onclick="BookingList.showDetail(${id})" class="px-3 py-2 bg-main-light text-main-dark border border-gray-200 rounded-lg hover:bg-gray-200 text-sm font-bold transition flex items-center gap-1">
                     ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} 
                 </button>`;
 
             // Tombol Edit & Delete
             if (statusKey === 'pending' || statusKey === 'approved' || statusKey === 'rejected' || statusKey === '0' || role === 'admin') {
-                buttonsHTML += `
+                adminButton += `
                     <a href="booking-form.html?id=${id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">Edit</a>
                     <button onclick="BookingList.delete(${id})" class="px-3 py-2 rounded-lg border-gray-200 text-gray-600 bg-red-200 hover:bg-red-300 hover:text-red-600 text-sm font-bold transition">Delete</button>
                 `;
@@ -153,7 +151,7 @@ window.BookingList = {
                 </div>
                 
                 <div class="flex gap-2">
-                    ${buttonsHTML}
+                    ${adminButton}
                 </div>
             </div>`;
         });
@@ -161,43 +159,7 @@ window.BookingList = {
         container.innerHTML = html;
     },
 
-    // 4. Detail, Delete, Update Status
-    
-    // Fungsi Update Status
-    async updateStatus(id, newStatus) {
-        const actionName = newStatus === 1 ? 'MENYETUJUI' : 'MENOLAK';
-        if(!confirm(`Yakin ingin ${actionName} booking ini?`)) return;
-
-        try {
-            const payload = { status: newStatus };
-            const res = await fetch(`${API_BASE_URL}/bookings/${id}/status`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-                alert(`Berhasil ${newStatus === 1 ? 'disetujui' : 'ditolak'}!`);
-                document.getElementById('detail-modal')?.remove();
-                
-                // Update data lokal biar gak perlu fetch ulang semua
-                const bookingIndex = this._bookings.findIndex(b => b.id === id);
-                if (bookingIndex !== -1) {
-                    this._bookings[bookingIndex].status = newStatus;
-                }
-                
-                // Render ulang filter yang sedang aktif
-                this.applyFilter();
-            } else {
-                const err = await res.json();
-                alert('Gagal update: ' + (err.title || 'Error Backend'));
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Error koneksi server.');
-        }
-    },
-
+    // 4. Detail, Delete
     // Fungsi Delete
     async delete(id) {
         if(!confirm('Hapus booking ini?')) return;
@@ -226,3 +188,10 @@ window.BookingList = {
         });
     }
 };
+
+// Export ke global agar bisa dipanggil dari HTML
+window.BookingList = BookingList;
+
+document.addEventListener('DOMContentLoaded', () => {
+    BookingList.init('booking-list-container');
+});
