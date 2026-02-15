@@ -3,7 +3,7 @@
 const API_BASE_URL = "http://localhost:5017/api"; 
 
 // Fungsi helper untuk melakukan fetch ke API dengan error handling dasar
-window.fetchAPI = async (endpoint, options = {}) => {
+export const fetchAPI = async (endpoint, options = {}) => {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
         headers: { 

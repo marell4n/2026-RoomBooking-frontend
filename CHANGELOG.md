@@ -64,3 +64,6 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - **Refactoring** script dan HTML:
   - Modifikasi `assets/js/api.js` agar kompatibel dengan sistem module dan fungsi `window` tetap bisa diakses di script lainnya.
   - Menghapus script CDN yang ada di file HTML.
+- Refactoring `api.js` dan `icon.js` menjadi **Modules**
+- **Refactoring** Dashboard menjadi **ES Modules**:
+  - Menyederhanakan `index.html` dengan menggunakan satu entry point(`init.js`).

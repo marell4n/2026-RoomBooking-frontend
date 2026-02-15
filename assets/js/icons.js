@@ -1,5 +1,5 @@
 // Tempel ke window agar bisa diakses global
-window.Icons = {
+export const Icons = {
     // 1. Icon Ruangan (Gedung)
     room: (classes = "w-6 h-6") => `
         <svg class="${classes}" fill="none" stroke="currentColor" viewBox="0 0 24 24">

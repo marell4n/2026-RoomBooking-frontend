@@ -1,8 +1,13 @@
-window.UserDashboard = {
-    async render(containerId) {
+// Import library atau modul yang dibutuhkan
+import { fetchAPI } from '../api.js';
+import { Icons } from '../icons.js';
+
+export const UserDashboard = {
+    async init(containerId = 'main-content') {
         const container = document.getElementById(containerId);
         if (!container) return;
 
+        console.log("User Dashboard initialized");
         container.innerHTML = `<div class="text-center py-20 text-gray-400">Memuat dashboard...</div>`;
 
         try {
@@ -30,14 +35,13 @@ window.UserDashboard = {
                 const bDate = new Date(b.startTime || b.StartTime).toDateString();
                 return (s === '1' || s === 'approved') && bDate === today;
             });
-            
+
             // Urutkan jadwal
             activeToday.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
 
             // Icons
             const iconRoom = typeof Icons !== 'undefined' ? Icons.room('w-12 h-12 text-blue') : "ruangan";
-            const iconCalendar = typeof Icons !== 'undefined' ? Icons.calendar('w-8 h-8') : "calendar";
-
+            const iconCalendar = typeof Icons !== 'undefined' ? Icons.calendar('w-8 h-8') : "calendar";           
             // --- Render HTML ---
             let html = `
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in-up">

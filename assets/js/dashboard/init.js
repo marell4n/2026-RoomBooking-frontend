@@ -1,3 +1,8 @@
+import { UserDashboard } from "./user";
+import { AdminDashboard } from "./admin";
+import { fetchAPI } from '../api.js';
+import { Icons } from '../icons.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Siapkan komponen Shared (Header & Modal)
     renderHeader();
@@ -5,20 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Langsung Jalankan Dashboard sesuai Role
     const role = localStorage.getItem('userRole') || 'user';
-    console.log("Current Role:", role);
+    console.log("Role detected:", role);
 
     if (role === 'admin') {
-        if (window.AdminDashboard) {
-            window.AdminDashboard.render('main-content');
-        } else {
-            console.error("Gagal: window.AdminDashboard tidak ditemukan.");
-        }
+        AdminDashboard.init();
     } else {
-        if (window.UserDashboard) {
-            window.UserDashboard.render('main-content');
-        } else {
-            console.error("Gagal: window.UserDashboard tidak ditemukan.");
-        }
+        UserDashboard.init();
     }
 });
 

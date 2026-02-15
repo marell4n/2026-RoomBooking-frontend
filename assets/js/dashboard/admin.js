@@ -1,8 +1,13 @@
-window.AdminDashboard = { 
-    async render(containerId) {
+// Import library atau modul yang dibutuhkan
+import { fetchAPI } from '../api.js';
+import { Icons } from '../icons.js';
+
+export const AdminDashboard = { 
+    async init(containerId = 'main-content') {
         const container = document.getElementById(containerId);
         if (!container) return;
 
+        console.log("Admin Dashboard Initialized");
         container.innerHTML = `<div class="text-center py-20 text-gray-400">Mengambil data...</div>`;
 
         try {
