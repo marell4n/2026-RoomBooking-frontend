@@ -1,6 +1,6 @@
 import { fetchAPI } from "../api";
 import { Icons } from "../icons";
-import { BookingModal } from "../component/BookingDetailModal";
+import { BookingModal } from "../../../src/component/BookingDetailModal";
 
 const BookingList = {
     _bookings: [], // Data mentah semua booking

@@ -1,7 +1,7 @@
 // Import library atau modul yang dibutuhkan
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
-import { TodaySchedule } from '../component/TodaySchedule.js';
+import { TodaySchedule } from '../../../src/component/TodaySchedule.js';
 
 export const UserDashboard = {
     async init(containerId = 'main-content') {
