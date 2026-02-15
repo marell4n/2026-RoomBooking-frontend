@@ -57,10 +57,10 @@ function renderGlobalModal() {
     if (document.getElementById('booking-modal')) return;
 
     const modalHTML = `
-        <div id="booking-modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300">
+        <div id="booking-modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 backdrop-blur-sm transition-opacity duration-300">
             <div class="bg-white w-full max-w-md mx-4 rounded-2xl shadow-2xl transform scale-100 flex flex-col overflow-hidden animate-fade-in-up">
                 
-                <div class="bg-gradient-to-r from-main-dark to-gray-800 text-white px-6 py-4 flex justify-between items-center">
+                <div class="bg-linear-to-r from-main-dark to-gray-800 text-white px-6 py-4 flex justify-between items-center">
                     <h3 class="font-bold text-lg tracking-wide">Detail Booking</h3>
                     <button onclick="closeModal()" class="text-white/70 hover:text-white transition transform hover:rotate-90">
                         ${Icons.close ? Icons.close('w-6 h-6') : 'X'}
@@ -103,14 +103,8 @@ function renderGlobalModal() {
 
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Keperluan</label>
-                        <p id="modal-purpose" class="text-gray-600 italic bg-gray-50 p-3 rounded-lg border border-gray-100 leading-relaxed min-h-[60px]">-</p>
+                        <p id="modal-purpose" class="text-gray-600 italic bg-gray-50 p-3 rounded-lg border border-gray-100 leading-relaxed min-h-15">-</p>
                     </div>
-                </div>
-
-                <div class="bg-gray-50 px-6 py-4 flex justify-end">
-                    <button onclick="closeModal()" class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 hover:text-gray-900 font-bold py-2 px-6 rounded-lg transition shadow-sm">
-                        Tutup
-                    </button>
                 </div>
             </div>
         </div>

@@ -22,8 +22,8 @@ window.RoomForm = {
                             <textarea id="room-desc" placeholder="Deskripsi" class="w-full border p-2 rounded-lg">${room?.description || ''}</textarea>
                         </div>
                         <div class="flex gap-2">
-                            <button type="button" onclick="RoomForm.closeModal()" class="flex-grow border py-2 rounded-lg">Batal</button>
-                            <button type="submit" class="flex-grow bg-admin text-white py-2 rounded-lg font-bold">Simpan</button>
+                            <button type="button" onclick="RoomForm.closeModal()" class="grow border py-2 rounded-lg">Batal</button>
+                            <button type="submit" class="grow bg-admin text-white py-2 rounded-lg font-bold">Simpan</button>
                         </div>
                     </form>
                 </div>

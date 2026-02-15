@@ -129,7 +129,7 @@ window.BookingList = {
                 </button>`;
 
             // Tombol Edit & Delete
-            if (statusKey === 'pending' || statusKey === '0' || role === 'admin') {
+            if (statusKey === 'pending' || statusKey === 'approved' || statusKey === 'rejected' || statusKey === '0' || role === 'admin') {
                 buttonsHTML += `
                     <a href="booking-form.html?id=${id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">Edit</a>
                     <button onclick="BookingList.delete(${id})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-red-50 hover:bg-red-100 hover:text-red-600 text-sm font-bold transition">Delete</button>
@@ -138,7 +138,7 @@ window.BookingList = {
 
             html += `
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in-up">
-                <div class="flex-grow">
+                <div class="grow">
                     <div class="flex items-center gap-3 mb-2">
                         <h3 class="font-bold text-lg text-main-dark">${roomName}</h3>
                         <span class="px-2 py-0.5 rounded text-xs font-bold border ${status.class}">${status.text}</span>
@@ -233,6 +233,10 @@ window.BookingList = {
         if(rawStatus === '2' || rawStatus === 'rejected') statusText = 'Rejected';
         if(rawStatus === '3' || rawStatus === 'cancelled') statusText = 'Cancelled';
 
+        // Format Tanggal Update
+        const statusUpdated = formatDateFull(booking.statusUpdatedAt || booking.StatusUpdatedAt);
+        const updatedAt = formatDateFull(booking.updatedAt || booking.UpdatedAt);
+
         // Admin Buttons Logic
         let adminButtons = '';
         if (role === 'admin') {
@@ -240,11 +244,6 @@ window.BookingList = {
                 adminButtons = `<button onclick="BookingList.updateStatus(${id}, 2)" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded border border-red-200 font-bold hover:bg-red-200">Reject</button>`;
             } else if (statusText === 'Rejected') {
                 adminButtons = `<button onclick="BookingList.updateStatus(${id}, 1)" class="text-xs bg-green-100 text-green-600 px-3 py-1 rounded border border-green-200 font-bold hover:bg-green-200">Approve</button>`;
-            } else if (statusText === 'Pending') {
-                adminButtons = `
-                    <button onclick="BookingList.updateStatus(${id}, 1)" class="text-xs bg-green-600 text-white px-3 py-1 rounded font-bold hover:bg-green-700">Approve</button>
-                    <button onclick="BookingList.updateStatus(${id}, 2)" class="text-xs bg-red-50 text-red-600 px-3 py-1 rounded border border-red-200 font-bold hover:bg-red-100">Reject</button>
-                `;
             }
         }
 
@@ -266,6 +265,16 @@ window.BookingList = {
                         </div>
                         <div><p class="text-xs text-gray-400 font-bold uppercase">Peminjam</p><p class="font-medium">👤 ${booking.bookedBy}</p></div>
                         <div><p class="text-xs text-gray-400 font-bold uppercase">Keperluan</p><p class="italic text-gray-600">"${booking.purpose}"</p></div>
+                        <div class="pt-4 mt-4 border-t border-gray-100 text-s text-gray-500 space-y-1">
+                        <div class="flex justify-between">
+                            <span>Status Updated:</span>
+                            <span>${statusUpdated}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Last Modified:</span>
+                            <span>${updatedAt}</span>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>`;

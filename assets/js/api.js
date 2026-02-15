@@ -1,15 +1,28 @@
 // Konfigurasi URL API Backend
-// Ganti port '5017' sesuai dengan port backend (cek di launchSettings.json atau saat run backend)
+// Ganti port '5017' sesuai dengan port backend kamu
 const API_BASE_URL = "http://localhost:5017/api"; 
 
-// Helper untuk fetch data dengan error handling
-async function fetchAPI(endpoint) {
+// Fungsi helper untuk melakukan fetch ke API dengan error handling dasar
+window.fetchAPI = async (endpoint, options = {}) => {
+    const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        headers: { 
+            'Content-Type': 'application/json', // Default kirim JSON
+            ...options.headers 
+        }
+    });
+
+    if (res.status === 204) return true; // Sukses delete/no-content
+    
+    // Coba return JSON, kalau gagal (misal server error text) return null/error obj
     try {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`);
-        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
-        return await response.json();
-    } catch (error) {
-        console.error("Fetch API Error:", error);
-        return null;
+        const data = await res.json();
+        return res.ok ? data : Promise.reject(data); // Kalau !ok, lempar ke catch
+    } catch (e) {
+        return res.ok ? {} : Promise.reject({ title: res.statusText });
     }
-}
+};
+
+// Expose ke Global Window agar bisa dibaca file lain
+window.fetchAPI = fetchAPI;
+window.API_BASE_URL = API_BASE_URL;
