@@ -69,3 +69,6 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menyederhanakan `index.html` dengan menggunakan satu entry point(`init.js`).
   - Mengubah file `init.js`, `user.js`, dan `admin.js` menjadi berbasis **ES Modules**.
   - Menghapus duplikasi kode filter jadwal di `user.js` dan `admin.js` dengan mendelegasikan tugas tersebut ke komponen `TodaySchedule`.
+- **Refactoring** `BookingDetail` menjadi **Component** (`BookingDetailModal`):
+  - Menghapus duplikasi kode di `dashboard/init.js` dan `bookings/list.js`.
+  - Penyesuaikan payload data status agar sesuai dengan standard DTO pada backend.

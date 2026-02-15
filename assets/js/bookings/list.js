@@ -1,3 +1,5 @@
+import { BookingModal } from "../component/BookingDetailModal";
+
 document.addEventListener('DOMContentLoaded', () => {
     BookingList.init('booking-list-container');
 });
@@ -125,14 +127,14 @@ window.BookingList = {
             // Tombol Detail
             buttonsHTML += `
                 <button onclick="BookingList.showDetail(${id})" class="px-3 py-2 bg-main-light text-main-dark border border-gray-200 rounded-lg hover:bg-gray-200 text-sm font-bold transition flex items-center gap-1">
-                    ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} Detail
+                    ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-4 h-4') : "Detail"} 
                 </button>`;
 
             // Tombol Edit & Delete
             if (statusKey === 'pending' || statusKey === 'approved' || statusKey === 'rejected' || statusKey === '0' || role === 'admin') {
                 buttonsHTML += `
                     <a href="booking-form.html?id=${id}" class="px-3 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-200 text-sm font-bold transition">Edit</a>
-                    <button onclick="BookingList.delete(${id})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-red-50 hover:bg-red-100 hover:text-red-600 text-sm font-bold transition">Delete</button>
+                    <button onclick="BookingList.delete(${id})" class="px-3 py-2 rounded-lg border-gray-200 text-gray-600 bg-red-200 hover:bg-red-300 hover:text-red-600 text-sm font-bold transition">Delete</button>
                 `;
             }
 
@@ -219,65 +221,8 @@ window.BookingList = {
         const booking = this._bookings.find(b => (b.id || b.Id) === id);
         if (!booking) return;
 
-        const role = localStorage.getItem('userRole') || 'user';
-        const formatDateFull = (iso) => iso ? new Date(iso).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' }) : '-';
-
-        // Ambil data referensi ruangan
-        const room = this._rooms.find(r => r.id === booking.roomId);
-        const roomName = room ? room.name : (booking.RoomName || 'Unknown');
-
-        // Mapping Status
-        const rawStatus = String(booking.status || '0').toLowerCase();
-        let statusText = 'Pending';
-        if(rawStatus === '1' || rawStatus === 'approved') statusText = 'Approved';
-        if(rawStatus === '2' || rawStatus === 'rejected') statusText = 'Rejected';
-        if(rawStatus === '3' || rawStatus === 'cancelled') statusText = 'Cancelled';
-
-        // Format Tanggal Update
-        const statusUpdated = formatDateFull(booking.statusUpdatedAt || booking.StatusUpdatedAt);
-        const updatedAt = formatDateFull(booking.updatedAt || booking.UpdatedAt);
-
-        // Admin Buttons Logic
-        let adminButtons = '';
-        if (role === 'admin') {
-            if (statusText === 'Approved') {
-                adminButtons = `<button onclick="BookingList.updateStatus(${id}, 2)" class="text-xs bg-red-100 text-red-600 px-3 py-1 rounded border border-red-200 font-bold hover:bg-red-200">Reject</button>`;
-            } else if (statusText === 'Rejected') {
-                adminButtons = `<button onclick="BookingList.updateStatus(${id}, 1)" class="text-xs bg-green-100 text-green-600 px-3 py-1 rounded border border-green-200 font-bold hover:bg-green-200">Approve</button>`;
-            }
-        }
-
-        const modalHTML = `
-            <div id="detail-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-                <div class="bg-white w-full max-w-lg rounded-2xl shadow-xl overflow-hidden">
-                    <div class="bg-main-dark text-white p-5 flex justify-between items-center">
-                        <h3 class="text-lg font-bold">Detail Booking</h3>
-                        <button onclick="document.getElementById('detail-modal').remove()" class="text-white/70 hover:text-white">✕</button>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div class="flex justify-between border-b pb-4">
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Ruangan</p><p class="text-lg font-bold text-main-dark">${roomName}</p></div>
-                            <div class="text-right"><p class="text-xs text-gray-400 font-bold uppercase">Status</p><p class="font-bold text-user capitalize">${statusText}</p><div class="mt-2 space-x-2">${adminButtons}</div></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg">
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Mulai</p><p class="text-sm font-semibold">${formatDateFull(booking.startTime)}</p></div>
-                            <div><p class="text-xs text-gray-400 font-bold uppercase">Selesai</p><p class="text-sm font-semibold">${formatDateFull(booking.endTime)}</p></div>
-                        </div>
-                        <div><p class="text-xs text-gray-400 font-bold uppercase">Peminjam</p><p class="font-medium">👤 ${booking.bookedBy}</p></div>
-                        <div><p class="text-xs text-gray-400 font-bold uppercase">Keperluan</p><p class="italic text-gray-600">"${booking.purpose}"</p></div>
-                        <div class="pt-4 mt-4 border-t border-gray-100 text-s text-gray-500 space-y-1">
-                        <div class="flex justify-between">
-                            <span>Status Updated:</span>
-                            <span>${statusUpdated}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Last Modified:</span>
-                            <span>${updatedAt}</span>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>`;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        BookingModal.show(id, this._bookings, this._rooms, () => {
+            this.init(this._containerId); // Refresh data & UI setelah update status
+        });
     }
 };

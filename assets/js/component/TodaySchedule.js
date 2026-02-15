@@ -1,4 +1,5 @@
 import { Icons } from '../icons.js';
+import { BookingModal } from './BookingDetailModal.js';
 
 export const TodaySchedule = {
     /**
@@ -8,6 +9,21 @@ export const TodaySchedule = {
      * @returns {string} HTML string
      */
     render(bookings, rooms) {
+        // Simpan data ke window secara otomatis agar fungsi detail bisa akses
+        window.currentBookings = bookings;
+        window.currentRooms = rooms;
+
+        if (!window.showBookingDetail) {
+            window.showBookingDetail = (id) => {
+                BookingModal.show(
+                    id, 
+                    window.currentBookings, 
+                    window.currentRooms, 
+                    () => location.reload() // Default action untuk dashboard
+                );
+            };
+        }
+
         const today = new Date().toDateString();
         
         // 1. Logika Filter: Hanya yang Approved (1) dan Hari Ini
