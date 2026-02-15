@@ -1,4 +1,4 @@
-import { fetchAPI } from "../utils/fetchAPI";
+import { fetchAPI } from "../api";
 import { Icons } from "../icons";
 import { BookingModal } from "../component/BookingDetailModal";
 

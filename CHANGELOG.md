@@ -73,3 +73,5 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menghapus duplikasi kode di `dashboard/init.js` dan `bookings/list.js`.
   - Penyesuaikan payload data status agar sesuai dengan standard DTO pada backend.
 - **Refactoring** `bookings/list` menjadi module.
+- **Refactoring** `/rooms` menjadi module.
+- Memperbaiki typo import *fecthAPI* di `/booking/list.js`
