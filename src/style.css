@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
 
 @import "tailwindcss";
 
@@ -6,16 +7,19 @@
   /* --- Font Family --- */
   --font-sans: "Inter", "sans-serif";
 
+  /* --- Logo Font --- */
+  --font-logo: "Henny Penny", "cursive";
+
   /* --- Warna Admin --- */
-  --color-admin: #E38792;
-  --color-admin-hover: #c96f79;
+  --color-admin: #e5a2a0;
+  --color-admin-hover: #b57b79;
 
   /* --- Warna User --- */
-  --color-user: #9DAD71;
-  --color-user-hover: #869660;
+  --color-user: #86abcb;
+  --color-user-hover: #668096;
 
   /* --- Warna Main --- */
-  --color-main-dark: #4E0A0B;
-  --color-main-light: #F2EEE8;
-  --color-main-white: #FFFFFF;
+  --color-main-dark: #6b3c2e;
+  --color-main-light: #e6e0c4;
+  --color-main-white: #f4f3f0;
 }

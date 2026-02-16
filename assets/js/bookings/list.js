@@ -1,6 +1,6 @@
-import { fetchAPI } from "../api";
-import { Icons } from "../icons";
-import { BookingModal } from "../../../src/component/BookingDetailModal";
+import { fetchAPI } from "../../../src/utils/api";
+import { Icons } from "../../../src/utils/icons";
+import { BookingModal } from "../../../src/component/booking-detail-modal";
 import { PaginationHelper } from '../../../src/utils/pagination-helper';
 
 const BookingList = {
@@ -129,7 +129,7 @@ const BookingList = {
         const role = localStorage.getItem('userRole') || 'user';
 
         if (bookings.length === 0) {
-            container.innerHTML = `<div class="text-center py-20 bg-white rounded-xl border border-dashed border-gray-300 text-gray-500">Data booking tidak ditemukan.</div>`;
+            container.innerHTML = `<div class="text-center py-20 bg-main-white rounded-xl border border-dashed border-gray-300 text-gray-500">Data booking tidak ditemukan.</div>`;
             return;
         }
 
@@ -181,7 +181,7 @@ const BookingList = {
             }
 
             html += `
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in-up">
+            <div class="bg-main-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in-up">
                 <div class="grow">
                     <div class="flex items-center gap-3 mb-2">
                         <h3 class="font-bold text-lg text-main-dark">${roomName}</h3>

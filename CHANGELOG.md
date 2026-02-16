@@ -79,7 +79,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - **Refactoring** `assets/js/admin-approval.js` menjadi modul.
 - Memperbaiki file component yang tidak terpush ke git.
 
-## [v.1.1] - 16-02-2026
+## [v.1.1.0] - 16-02-2026
 ### Added
 - Menambah library `tui-pagination` untuk membagi data agar tidak perlu scroll panjang.
 - Menambah`utils/pagination-helper` untuk kustomisasi pagination
@@ -90,3 +90,15 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 
 ### Fixed
 - Memperbaiki penulisan tailwind.
+
+## [v1.2.0] - 16-02-2026
+### Fixed
+- Mengganti nama aplikasi dan styling dengan font.
+- Memisahkan **footer** dari *html* dan membuat component `footer` tersendiri.
+- Memisahkan **navbar** dari `app.js` dan membuat component `navbar` tersendiri.
+- Memisahkan logika `init()`, `switchRole()` dan `applyTheme()` ke `main.js` (`app.js` dihapus).
+- Mengubah nama *BookingDetailModal* menjadi *booking-detail-modal* dan memindahkannya ke `/src/component`.
+- Memindahkan *today-schedule* ke `/src/component`.
+
+### Added
+- Menambahkan hover ke menu **Admin Approval** di `navbar`.

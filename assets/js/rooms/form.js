@@ -1,4 +1,4 @@
-import { fetchAPI } from "../api";
+import { fetchAPI } from "../../../src/utils/api";
 
 export const RoomForm = {
     openModal(id = null) {
@@ -10,7 +10,7 @@ export const RoomForm = {
 
         const modalHTML = `
             <div id="room-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-sm">
-                <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl">
+                <div class="bg-main-white w-full max-w-md p-6 rounded-2xl shadow-xl">
                     <h3 class="text-xl font-bold mb-4">${id ? 'Edit Ruangan' : 'Tambah Ruangan'}</h3>
                     <form id="form-room" class="mb-4 mt-4">
                         <input type="hidden" id="room-id" value="${id || ''}">
