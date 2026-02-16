@@ -1,17 +1,24 @@
 import { fetchAPI } from "../api";
 import { Icons } from "../icons";
 import { BookingModal } from "../../../src/component/BookingDetailModal";
+import { PaginationHelper } from '../../../src/utils/pagination-helper';
 
 const BookingList = {
     _bookings: [], // Data mentah semua booking
     _rooms: [],    // Data mentah ruangan
     _containerId: 'booking-list-container',
+    itemsPerPage: 6, // Jumlah item per halaman
 
     // 1. Fetch Data Sekali Saja
     async init(containerId) {
         this._containerId = containerId;
+        
         const container = document.getElementById(containerId);
         if (!container) return;
+
+        if (!document.getElementById('pagination-container')) {
+            container.insertAdjacentHTML('afterend', '<div id="pagination-container" class="flex justify-center mt-8 pb-10"></div>');
+        }
 
         container.innerHTML = `<div class="text-center py-20 text-gray-400">Memuat data booking...</div>`;
 
@@ -30,17 +37,38 @@ const BookingList = {
             // Simpan ke memory
             this._bookings = bookings;
             this._rooms = rooms || [];
+            
 
             // Isi Dropdown Filter
             this.populateRoomFilter();
 
-            // Render awal (Tampilkan semua)
-            this.renderList(this._bookings);
+           // Initialize pagination
+            this.paginationInstance = PaginationHelper('pagination-container', this._bookings.length, this.itemsPerPage, (newPage) => {
+                this.updateList(newPage, this._containerId);
+                const content = document.getElementById(this._containerId);
+                if(content) content.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            this.updateList(1, this._containerId); // Render halaman pertama
 
         } catch (error) {
             console.error(error);
             container.innerHTML = `<div class="text-red-500 text-center">Terjadi kesalahan koneksi.</div>`;
         }
+    },
+
+    // Fungsi untuk update list berdasarkan halaman
+    updateList(page, containerId) {
+        // Tentukan data mana yang mau dipakai (Data asli atau hasil Filter?)
+        const sourceData = this.filteredData || this._bookings;
+
+        // Logika Matematika Potong Array (Slice)
+        const startData = (page - 1) * this.itemsPerPage;
+        const endData = startData + this.itemsPerPage;
+        const paginatedItems = sourceData.slice(startData, endData);
+
+        // Render data yang sudah dipotong
+        this.renderList(paginatedItems);
     },
 
     // 2. Logika Filtering
@@ -70,13 +98,29 @@ const BookingList = {
             return dateMatch && roomMatch;
         });
 
-        this.renderList(filtered);
+        // Simpan hasil filter untuk pagination
+        this.filteredData = filtered;
+
+        // Reset pagination ke halaman 1
+        this.updateList(1, this._containerId);
+
+        // Update jumlah total item di pagination
+        if (this.paginationInstance) {
+        this.paginationInstance.setTotalItems(filtered.length);
+    }
     },
 
     resetFilter() {
         document.getElementById('filter-date').value = '';
         document.getElementById('filter-room').value = '';
-        this.renderList(this._bookings); // Tampilkan semua lagi
+        this.filteredData = null; // Reset filter
+    
+            this.updateList(1, this._containerId); // Render ulang via pagination
+
+        // Reset pagination count
+        if (this.paginationInstance) {
+            this.paginationInstance.setTotalItems(this._bookings.length);
+        }
     },
 
     // 3. Render HTML (Menerima data yang sudah difilter)

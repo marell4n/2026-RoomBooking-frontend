@@ -1,5 +1,5 @@
-import { UserDashboard } from "./user";
-import { AdminDashboard } from "./admin";
+import { UserDashboard } from "./user.js";
+import { AdminDashboard } from "./admin.js";
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
 import { BookingModal } from "../../../src/component/BookingDetailModal.js";

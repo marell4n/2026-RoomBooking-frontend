@@ -26,5 +26,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "tui-pagination": "^3.4.1"
   }
 }
