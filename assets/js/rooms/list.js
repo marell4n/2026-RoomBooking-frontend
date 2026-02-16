@@ -41,7 +41,7 @@ const RoomList = {
                 if(header) header.scrollIntoView({ behavior: 'smooth' });
             });
 
-             this.updateList(1, containerId); // Render halaman pertama
+            this.updateList(1, containerId); // Render halaman pertama
 
             // Live search
             const searchInput = document.getElementById('search-room'); 

@@ -85,3 +85,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - Menambah`utils/pagination-helper` untuk kustomisasi pagination
 - Menambahkan **pagination** ke `rooms`.
 - Menambahkan **pagination** ke `dashboard`.
+- Menambahkan **pagination** ke `bookings`.
