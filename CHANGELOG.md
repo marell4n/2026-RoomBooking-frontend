@@ -79,7 +79,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - **Refactoring** `assets/js/admin-approval.js` menjadi modul.
 - Memperbaiki file component yang tidak terpush ke git.
 
-## [Unreleased]
+## [v.1.1] - 16-02-2026
 ### Added
 - Menambah library `tui-pagination` untuk membagi data agar tidak perlu scroll panjang.
 - Menambah`utils/pagination-helper` untuk kustomisasi pagination
