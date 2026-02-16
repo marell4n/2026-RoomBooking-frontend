@@ -86,4 +86,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - Menambahkan **pagination** ke `rooms`.
 - Menambahkan **pagination** ke `dashboard`.
 - Menambahkan **pagination** ke `bookings`.
-- Menambahkan **footer** ke `booking.html`, `booking-form.html` dan `admin-approval.html`,
+- Menambahkan **footer** ke `booking.html`, `booking-form.html` dan `admin-approval.html`.
+
+### Fixed
+- Memperbaiki penulisan tailwind.
