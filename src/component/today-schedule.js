@@ -1,5 +1,5 @@
-import { Icons } from '../../assets/js/icons.js';
-import { BookingModal } from './BookingDetailModal.js';
+import { Icons } from '../utils/icons.js';
+import { BookingModal } from './booking-detail-modal.js';
 import { PaginationHelper } from '../utils/pagination-helper.js';
 
 export const TodaySchedule = {

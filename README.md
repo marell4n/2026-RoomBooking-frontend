@@ -33,6 +33,14 @@ Aplikasi antarmuka pengguna (frontend) untuk sistem peminjaman ruangan kampus.
     - Penambahan pagination di `rooms`, `bookings`, dan `dashboard`.
     - Agar user tidak perlu scroll panjang.
 
+### Rilis v1.2.0
+1. **UI**:
+    - *Palet warna* baru.
+    - Tampilan *navbar* baru.
+2. *Refactoring*:
+    - Mengubah `footer` dan `navbar` menjadi module.
+    - Memindahkan *logika global* ke dalam satu file.
+
 ## Cara Install (Local)
 ### Syarat
 - [Node.js](https://nodejs.org/) (Versi 18 atau lebih baru)
