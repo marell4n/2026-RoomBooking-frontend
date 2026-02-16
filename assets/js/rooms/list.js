@@ -1,9 +1,11 @@
 import { fetchAPI } from "../api";
 import { Icons } from "../icons";
 import { RoomForm } from "./form";
+import { PaginationHelper } from "../../../src/utils/pagination-helper";
 
 const RoomList = {
     _data: [], // Data mentah semua ruangan
+    itemsPerPage: 6, // Jumlah item per halaman
 
     async init(containerId) {
         // Render Header Halaman
@@ -11,6 +13,10 @@ const RoomList = {
 
         const container = document.getElementById(containerId);
         if(!container) return;
+
+        if (!document.getElementById('pagination-container')) {
+            container.insertAdjacentHTML('afterend', '<div id="pagination-container" class="flex justify-center mt-8 pb-10"></div>');
+        }
 
         container.innerHTML = `<div class="text-center py-20 text-gray-400">Memuat data ruangan...</div>`;
 
@@ -24,15 +30,18 @@ const RoomList = {
 
             // Simpan data ke memori lokal
             this._data = rooms;
-
-            // Render Grid Ruangan
-            this.renderGrid(rooms, containerId);
             window.allRooms = { _data: rooms }; // Agar form.js bisa akses data ini
 
             console.log("Data Ruangan Loaded:", window.allRooms);
 
-            // Render Grid Ruangan
-            this.renderGrid(rooms, containerId);
+            // Initialize pagination
+            this.paginationInstance = PaginationHelper('pagination-container', this._data.length, this.itemsPerPage, (newPage) => {
+                this.updateList(newPage, containerId);
+                const header = document.getElementById('page-header');
+                if(header) header.scrollIntoView({ behavior: 'smooth' });
+            });
+
+             this.updateList(1, containerId); // Render halaman pertama
 
             // Live search
             const searchInput = document.getElementById('search-room'); 
@@ -92,7 +101,28 @@ const RoomList = {
             const name = room.name || room.Name || ''; 
             return name.toLowerCase().includes(lowerKeyword);
         });
-        this.renderGrid(filtered, containerId);
+
+        this.filteredData = filtered;
+        this.updateList(1, containerId);
+
+        // Update pagination dengan data yang sudah difilter
+        if (this.paginationInstance) {
+            this.paginationInstance.setTotalItems(filtered.length);
+        }
+    },
+
+    // Fungsi untuk update list berdasarkan halaman
+    updateList(page, containerId) {
+        // Tentukan data mana yang mau dipakai (Data asli atau hasil Filter?)
+        const sourceData = this.filteredData || this._data;
+
+        // Logika Matematika Potong Array (Slice)
+        const start = (page - 1) * this.itemsPerPage;
+        const end = start + this.itemsPerPage;
+        const paginatedItems = sourceData.slice(start, end);
+
+        // Render data yang sudah dipotong
+        this.renderGrid(paginatedItems, containerId);
     },
 
     renderGrid(rooms, containerId) {

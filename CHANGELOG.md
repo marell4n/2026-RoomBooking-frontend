@@ -83,3 +83,4 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 ### Added
 - Menambah library `tui-pagination` untuk membagi data agar tidak perlu scroll panjang.
 - Menambah`utils/pagination-helper` untuk kustomisasi pagination
+- Menambahkan **pagination** ke `rooms`.
