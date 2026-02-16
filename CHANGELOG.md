@@ -48,7 +48,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
   - Menggunakan endpoint `PATCH /api/bookings/{id}/status` untuk menyetujui dan menolak secara efisien, jadi tidak perlu mengirimkan kembali semua data booking ulang dengan endpoint `PUT`.
   - Menambahkan admin dapat mengubah status dari disetujui (`Approved`) menjadi ditolak (`Rejected`) dan sebaliknya.
 
-## Fixed
+### Fixed
 - Memperbaiki `status` dari **booking** agar dapat muncul di tampilan list.
 - **Dashboard**: Kini menampilkan data statistik *real-time* yang diambil dari API, menggantikan tampilan *dummy*.
 - Memperbaiki fungsi **tombol update status** yang ada di dashboard untuk admin (kesalahan penulisan fungsi).
@@ -78,3 +78,15 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - Memperbaiki typo import *fecthAPI* di `/booking/list.js`
 - **Refactoring** `assets/js/admin-approval.js` menjadi modul.
 - Memperbaiki file component yang tidak terpush ke git.
+
+## [v.1.1] - 16-02-2026
+### Added
+- Menambah library `tui-pagination` untuk membagi data agar tidak perlu scroll panjang.
+- Menambah`utils/pagination-helper` untuk kustomisasi pagination
+- Menambahkan **pagination** ke `rooms`.
+- Menambahkan **pagination** ke `dashboard`.
+- Menambahkan **pagination** ke `bookings`.
+- Menambahkan **footer** ke `booking.html`, `booking-form.html` dan `admin-approval.html`.
+
+### Fixed
+- Memperbaiki penulisan tailwind.

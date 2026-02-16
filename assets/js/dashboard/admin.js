@@ -1,7 +1,7 @@
 // Import library atau modul yang dibutuhkan
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
-import { TodaySchedule } from '../../../src/component/TodaySchedule.js';
+import { TodaySchedule } from '../../../src/component/today-schedule.js';
 
 export const AdminDashboard = { 
     async init(containerId = 'main-content') {
@@ -84,6 +84,11 @@ export const AdminDashboard = {
                 ${TodaySchedule.render(bookings, rooms)}
             `;
             container.innerHTML = html;
+
+            // Jalankan pagination
+            setTimeout(() => {
+                TodaySchedule.initPagination();
+            }, 0);
 
         } catch (error) {
             console.error(error);

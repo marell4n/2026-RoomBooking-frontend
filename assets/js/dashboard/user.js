@@ -1,7 +1,7 @@
 // Import library atau modul yang dibutuhkan
 import { fetchAPI } from '../api.js';
 import { Icons } from '../icons.js';
-import { TodaySchedule } from '../../../src/component/TodaySchedule.js';
+import { TodaySchedule } from '../../../src/component/today-schedule.js';
 
 export const UserDashboard = {
     async init(containerId = 'main-content') {
@@ -31,6 +31,7 @@ export const UserDashboard = {
 
             // Icons
             const iconRoom = typeof Icons !== 'undefined' ? Icons.room('w-12 h-12 text-blue') : "ruangan";          
+            
             // --- Render HTML ---
             let html = `
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in-up">
@@ -62,11 +63,16 @@ export const UserDashboard = {
                     </div>
                 </a>
             </div>
-
+            
             ${TodaySchedule.render(bookings, rooms)}
             `;
 
             container.innerHTML = html;
+
+            // Jalankan pagination
+            setTimeout(() => {
+                TodaySchedule.initPagination();
+            }, 0);
 
         } catch (error) {
             console.error(error);

@@ -44,7 +44,7 @@ function renderNavbar(role) {
     navbarContainer.innerHTML = `
         <nav class="${navBgColor} p-4 shadow-md transition-colors duration-500">
             <div class="container mx-auto flex items-center justify-between flex-wrap">
-                <div class="flex items-center flex-shrink-0 text-white mr-6">
+                <div class="flex items-center shrink-0 text-white mr-6">
                     <span class="font-bold text-xl tracking-tight">RoomBooking <span class="text-xs opacity-75">(${role.toUpperCase()})</span></span>
                 </div>
 
@@ -54,17 +54,17 @@ function renderNavbar(role) {
                     </button>
                 </div>
 
-                <div id="nav-content" class="w-full block flex-grow lg:flex lg:items-center lg:w-auto hidden">
-                    <div class="text-sm lg:flex-grow">
+                <div id="nav-content" class="w-full grow lg:flex lg:items-center lg:w-auto hidden">
+                    <div class="text-sm lg:grow">
                         ${menuItems}
                     </div>
                     
                     <div class="mt-4 lg:mt-0">
                         <span class="text-white text-xs mr-2 opacity-80">Switch Role:</span>
-                        <button onclick="switchRole('user')" class="${role === 'user' ? 'bg-white text-[#9DAD71]' : 'bg-transparent border border-white text-white'} text-xs font-bold py-1 px-3 rounded-l focus:outline-none">
+                        <button onclick="switchRole('user')" class="${role === 'user' ? 'bg-white text-user' : 'bg-transparent border border-white text-white'} text-xs font-bold py-1 px-3 rounded-l focus:outline-none">
                             User
                         </button>
-                        <button onclick="switchRole('admin')" class="${role === 'admin' ? 'bg-white text-[#E38792]' : 'bg-transparent border border-white text-white'} text-xs font-bold py-1 px-3 rounded-r focus:outline-none">
+                        <button onclick="switchRole('admin')" class="${role === 'admin' ? 'bg-white text-admin' : 'bg-transparent border border-white text-white'} text-xs font-bold py-1 px-3 rounded-r focus:outline-none">
                             Admin
                         </button>
                     </div>
