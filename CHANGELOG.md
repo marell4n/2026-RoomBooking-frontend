@@ -90,3 +90,7 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 
 ### Fixed
 - Memperbaiki penulisan tailwind.
+
+## [Unreleased]
+### Fixed
+- Mengganti nama aplikasi dan styling dengan font.

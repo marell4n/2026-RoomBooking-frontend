@@ -1,3 +1,5 @@
+import './../../src/style.css';
+
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
 });
@@ -24,29 +26,34 @@ function renderNavbar(role) {
     const navbarContainer = document.getElementById('navbar-container');
     if (!navbarContainer) return;
     
-    const navBgColor = role === 'admin' ? 'bg-[#E38792]' : 'bg-[#9DAD71]';
-    const menuHoverColor = role === 'admin' ? 'hover:bg-[#c96f79]' : 'hover:bg-[#869660]';
+    const navBgColor = role === 'admin' ? 'bg-admin' : 'bg-user';
+    const menuHoverColor = role === 'admin' ? 'hover:bg-admin-hover' : 'hover:bg-user-hover';
 
     // Menu Item (Admin bisa lihat menu Approval)
     let menuItems = `
-        <a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-4">Dashboard</a>
-        <a href="rooms.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-4">Rooms</a>
-        <a href="bookings.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-4">My Bookings</a>
+        <a href="index.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-0">Dashboard</a>
+        <a href="rooms.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-0">Rooms</a>
+        <a href="bookings.html" class="block mt-4 lg:inline-block lg:mt-0 text-white ${menuHoverColor} px-3 py-2 rounded mr-0">My Bookings</a>
     `;
 
     if (role === 'admin') {
         menuItems += `
-            <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white font-bold px-3 py-2 rounded mr-4">Admin Approval</a>
+            <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white bg-admin-hover font-bold px-3 py-2 rounded mr-4">Admin Approval</a>
         `;
     }
 
     // HTML Navbar
     navbarContainer.innerHTML = `
         <nav class="${navBgColor} p-4 shadow-md transition-colors duration-500">
-            <div class="container mx-auto flex items-center justify-between flex-wrap">
-                <div class="flex items-center shrink-0 text-white mr-6">
-                    <span class="font-bold text-xl tracking-tight">RoomBooking <span class="text-xs opacity-75">(${role.toUpperCase()})</span></span>
+            <div class="container mx-auto flex items-center justify-between flex-wrap p-4">
+                <div class="flex items-center text-white mr-10">
+                    <div class="flex flex-col items-center shrink-0 mr-3">
+                        <span class="font-logo text-4xl tracking-tight">RUKA</span>
+                        <span class="text-xs -mt-1">Ruang Kampus</span>
+                    </div>
+                    <div class="text-xs opacity-75">(${role.toUpperCase()})</div>
                 </div>
+                
 
                 <div class="block lg:hidden">
                     <button onclick="toggleMenu()" class="flex items-center px-3 py-2 border rounded text-white border-white hover:text-white hover:border-white">
