@@ -94,3 +94,8 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 ## [Unreleased]
 ### Fixed
 - Mengganti nama aplikasi dan styling dengan font.
+- Memisahkan **footer** dari *html* dan membuat component `footer` tersendiri.
+- Memisahkan **navbar** dari `app.js` dan membuat component `navbar` tersendiri.
+- Memisahkan logika `init()`, `switchRole()` dan `applyTheme()` ke `main.js` (`app.js` dihapus).
+- Mengubah nama *BookingDetailModal* menjadi *booking-detail-modal* dan memindahkannya ke `/src/component`.
+- Memindahkan *today-schedule* ke `/src/component`.

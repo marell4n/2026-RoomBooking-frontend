@@ -1,6 +1,6 @@
 // Import library atau modul yang dibutuhkan
-import { fetchAPI } from '../api.js';
-import { Icons } from '../icons.js';
+import { fetchAPI } from '../../../src/utils/api.js';
+import { Icons } from '../../../src/utils/icons.js';
 import { TodaySchedule } from '../../../src/component/today-schedule.js';
 
 export const AdminDashboard = { 
@@ -47,7 +47,7 @@ export const AdminDashboard = {
             // Render HTML
             let html = `
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in-up">
-                    <a href="rooms.html" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition group cursor-pointer relative overflow-hidden">
+                    <a href="rooms.html" class="bg-main-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition group cursor-pointer relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-16 h-16 bg-blue-400 opacity-10 rounded-bl-full -mr-2 -mt-2 transition group-hover:scale-110"></div>
                         <div class="p-4 rounded-full bg-blue-100 text-blue-600 mr-4 group-hover:bg-blue-200 transition">
                              ${typeof Icons !== 'undefined' ? Icons.room('w-8 h-8') : "rooms"}
@@ -58,7 +58,7 @@ export const AdminDashboard = {
                         </div>
                     </a>
                     
-                    <a href="admin-approval.html" class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition group cursor-pointer relative overflow-hidden">
+                    <a href="admin-approval.html" class="bg-main-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition group cursor-pointer relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-16 h-16 bg-yellow-400 opacity-10 rounded-bl-full -mr-2 -mt-2 transition group-hover:scale-110"></div>
                         <div class="p-4 rounded-full bg-yellow-100 text-yellow-600 mr-4 group-hover:bg-yellow-200 transition">
                             ${typeof Icons !== 'undefined' ? Icons.clock('w-8 h-8') : "clock"}
@@ -70,7 +70,7 @@ export const AdminDashboard = {
                         </div>
                     </a>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition">
+                    <div class="bg-main-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center hover:shadow-md transition">
                         <div class="p-4 rounded-full bg-admin/20 text-admin mr-4">
                             ${typeof Icons !== 'undefined' ? Icons.calendar('w-8 h-8') : "Kalender"}
                         </div>

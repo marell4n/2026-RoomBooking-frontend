@@ -1,5 +1,5 @@
-import { Icons } from "../../assets/js/icons";
-import { fetchAPI } from "../../assets/js/api";
+import { Icons } from "../utils/icons";
+import { fetchAPI } from "../utils/api";
 
 export const BookingModal = {
     /**
@@ -41,14 +41,14 @@ export const BookingModal = {
         if (role === 'admin') {
             if (statusKey === 'approved' || statusKey === 'Approved') {
                 adminButtons = `
-                    <button id="modal-btn-reject" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
+                    <button id="modal-btn-reject" title="Batalkan Approval (Reject)" class="px-2 py-1 bg-main-white border border-red-200 text-red-500 text-xs font-bold rounded hover:bg-red-50 transition">
                         Reject
                     </button>
                 `;
             }
             else if (statusKey === 'rejected' || statusKey === 'Rejected') {
                 adminButtons = `
-                    <button id="modal-btn-approve" title="Approve Ulang" class="px-2 py-1 bg-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
+                    <button id="modal-btn-approve" title="Approve Ulang" class="px-2 py-1 bg-main-white border border-green-200 text-green-500 text-xs font-bold rounded hover:bg-green-50 transition">
                         Approve
                     </button>
                 `;
@@ -57,7 +57,7 @@ export const BookingModal = {
 
         const modalHTML = `
         <div id="global-detail-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm animate-fade-in">
-            <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+            <div class="bg-main-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
                 <div class="bg-main-dark text-white p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">Detail Booking</h3>
                     <button id="modal-close-x" class="text-white/70 hover:text-white transition">✕</button>

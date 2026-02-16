@@ -1,5 +1,5 @@
-import { fetchAPI } from "../api";
-import { Icons } from "../icons";
+import { fetchAPI } from "../../../src/utils/api";
+import { Icons } from "../../../src/utils/icons";
 import { RoomForm } from "./form";
 import { PaginationHelper } from "../../../src/utils/pagination-helper";
 
@@ -81,7 +81,7 @@ const RoomList = {
                         ${typeof Icons !== 'undefined' && Icons.detail ? Icons.detail('w-5 h-5') : "🔍"}
                     </span>
                     <input type="text" id="search-room" 
-                        class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition bg-white text-sm" 
+                        class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition bg-main-white text-sm" 
                         placeholder="Cari nama ruangan...">
                 </div>
 
@@ -151,7 +151,7 @@ const RoomList = {
             const isLong = description.length > 100; // Batas karakter untuk read more
 
             html += `
-                <div class="relative pb-16 h-full bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
+                <div class="relative pb-16 h-full bg-main-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group">
                     <div class="p-6">
                         <div class="flex justify-between items-start mb-3">
                             <h3 class="text-xl font-bold text-main-dark group-hover:text-user transition">${name}</h3>

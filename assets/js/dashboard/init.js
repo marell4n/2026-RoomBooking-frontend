@@ -1,8 +1,8 @@
 import { UserDashboard } from "./user.js";
 import { AdminDashboard } from "./admin.js";
-import { fetchAPI } from '../api.js';
-import { Icons } from '../icons.js';
-import { BookingModal } from "../../../src/component/BookingDetailModal.js";
+import { fetchAPI } from '../../../src/utils/api.js';
+import { Icons } from '../../../src/utils/icons.js';
+import { BookingModal } from "../../../src/component/booking-detail-modal.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Siapkan komponen Shared
@@ -38,7 +38,7 @@ function renderHeader() {
             <h2 class="text-3xl font-bold text-main-dark capitalize tracking-tight">${title}</h2>
             <p class="text-gray-600 mt-1">${subtitle}</p>
         </div>
-        <div class="hidden sm:flex text-sm text-gray-500 bg-white px-4 py-2 rounded-full shadow-sm items-center gap-2 border border-gray-100">
+        <div class="hidden sm:flex text-sm text-gray-500 bg-main-white px-4 py-2 rounded-full shadow-sm items-center gap-2 border border-gray-100">
             ${Icons.calendar ? Icons.calendar('w-4 h-4') : '📅'} 
             <span class="font-medium">${todayDate}</span>
         </div>

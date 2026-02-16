@@ -1,4 +1,4 @@
-import { fetchAPI } from "./api.js";
+import { fetchAPI } from "../../src/utils/api.js";
 
 const AdminApproval = {
     _data: [], // Simpan raw data
@@ -62,7 +62,7 @@ const AdminApproval = {
                 const timeStr = `${start.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})} - ${end.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}`;
 
                 html += `
-                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-admin flex flex-col md:flex-row justify-between items-start gap-6 animate-fade-in-up hover:shadow-xl transition">
+                <div class="bg-main-white p-6 rounded-2xl shadow-lg border-l-4 border-admin flex flex-col md:flex-row justify-between items-start gap-6 animate-fade-in-up hover:shadow-xl transition">
                     
                     <div class="grow">
                         <div class="flex items-center gap-2 mb-2">
@@ -93,7 +93,7 @@ const AdminApproval = {
                             Setujui
                         </button>
                         
-                        <button onclick="AdminApproval.process(${id}, 2)" class="flex-1 md:w-40 bg-white border-2 border-red-100 text-red-500 hover:bg-red-50 hover:border-red-200 py-3 px-4 rounded-xl font-bold transition flex items-center justify-center gap-2">
+                        <button onclick="AdminApproval.process(${id}, 2)" class="flex-1 md:w-40 bg-main-white border-2 border-red-100 text-red-500 hover:bg-red-50 hover:border-red-200 py-3 px-4 rounded-xl font-bold transition flex items-center justify-center gap-2">
                             Tolak
                         </button>
                     </div>
@@ -106,7 +106,7 @@ const AdminApproval = {
 
     renderEmpty(container) {
         container.innerHTML = `
-            <div class="text-center py-20 bg-white/50 rounded-2xl border-2 border-dashed border-gray-300">
+            <div class="text-center py-20 bg-main-white/50 rounded-2xl border-2 border-dashed border-gray-300">
                 <div class="text-6xl mb-4">🎉</div>
                 <h3 class="text-xl font-bold text-gray-600">Semua Beres!</h3>
                 <p class="text-gray-500 mt-2">Tidak ada pengajuan booking yang menunggu persetujuan.</p>
