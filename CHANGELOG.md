@@ -99,3 +99,6 @@ Semua perubahan yang dilakukan akan didokumentasikan di dalam file ini.
 - Memisahkan logika `init()`, `switchRole()` dan `applyTheme()` ke `main.js` (`app.js` dihapus).
 - Mengubah nama *BookingDetailModal* menjadi *booking-detail-modal* dan memindahkannya ke `/src/component`.
 - Memindahkan *today-schedule* ke `/src/component`.
+
+### Added
+- Menambahkan hover ke menu **Admin Approval** di `navbar`.

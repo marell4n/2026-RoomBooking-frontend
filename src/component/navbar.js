@@ -17,7 +17,7 @@ export const Navbar = {
 
         if (role === 'admin') {
             menuItems += `
-                <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white bg-admin-hover font-bold px-3 py-2 rounded mr-4">Admin Approval</a>
+                <a href="admin-approval.html" class="block mt-4 lg:inline-block lg:mt-0 text-white font-bold ${menuHoverColor} px-3 py-2 rounded mr-0">Admin Approval</a>
             `;
         }
 
